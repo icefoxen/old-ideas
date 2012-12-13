@@ -1,0 +1,30 @@
+Build a bot, a remote-control worm.  Hey, have it grab it's instructions
+automatically at some interval from a website.  It should NOT be too virilant;
+having it clog up networks is a bad idea.
+Perhaps two versions, a worm that distributes itself, and an email trojan?
+Spam is a big enough problem, but it DOES get attachments clicked on...
+No.  I am NOT going to become a spammer, even for a good cause.
+
+What it should do upon infecting a computer:
+Download and install Windows Updates
+Install a firewall and configure it well
+Download and install Firefox; if possible, replace the IE icons with links to
+Firefox.
+Install a tutorial on basic computer security, and pop it up at boot-time with
+a message along the lines of "Your computer has been infected!  Fortunately,
+it's not a malicious one.  Read on to find out how to keep this from happening
+more nastily."
+If possible, replace Outlook Express and copy mailboxes over...
+Install Ad-Aware, Spybot, or similar things.
+Spread itself silently and politely.  Perhaps it'll watch the network and if
+it sees a lot of traffic from other Happybots it won't replicate (or at least
+delay it).  Throttling, basically.  Don't use more than X kbps of bandwidth at
+any one time.
+Record and deliver basic logging information: Windows version, ip/MAC address
+information for statistics purpose, bandwidth avaliable (broadband or dialup),
+perhaps the existance of other firewalls, virus-scanners, or
+worms/trojans/etc.
+Delete itself after a certain amount of time and ensure (through the security
+measures taken) that the computer won't be re-infected by it.  If it has to
+leave behind some magic marker showing that it's been there so other copies of
+it won't infect the computer, it hasn't done a good enough job.

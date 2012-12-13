@@ -1,0 +1,7 @@
+A program for generating haiku.  Pretty simple right, just choose three lines
+at random from appropriate dictionaries.
+
+Now...  What if you try to have it make GOOD haiku?  Like, each line is
+weighted on suitability compared to what other lines have been chosen?  Some
+sorta Bayesian-ish learning algorithm might be done, but it'd take a heyoooge
+database for it to really start to be effective.  Still, 'tis a neat idea.

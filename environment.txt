@@ -1,0 +1,40 @@
+FEATURES
+Register programs --path, alias, docs, icon, config
+Program framework, IE class you inherit from?
+Or simply a Scheme/XML net interface?
+Common data stack/clipboard
+Environment variables(?)
+Set-FS
+  Overlapping with tree, or independant of it?  Actual location vs. virtual
+  browser...?
+GUI  --Background pic, etc...
+Programming/compiler/editor config?
+  Auto-locations and configs for source files, etc...?
+Feed arbitrary config files and command-line args to various programs, etc...
+Remote control over net, via Scheme or XML?
+
+
+ARCHITECTURE
+Faculties for raising/lowering and keeping track of external program windows?
+  How much power does the C have...?
+
+
+PROGRAMS
+Filebrowser
+Shell --stack?  -recall, aliases
+Installer/Remover
+Nettools --FTP (+ scripting), telnet, SSH, wget, browser launch & aiming, 
+filesharing, portscanner, tracert and netstat, firewall and status, network 
+mapper...
+Cron, automation.
+
+
+PROGRAMMING
+SDL/Allegro GUI, or Windows native?
+  artificial looks nicer and possibly more powerful, but Windows is easier
+  and quicker
+Scheme engine --mzscheme?  Guile?  FFI IS KEY!
+
+C       -low level, glue
+Eiffel  -Medium level, data manipulation
+Python  -high level, interface

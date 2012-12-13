@@ -1,0 +1,17 @@
+Computers are very good at following orders, of course.  They are very good at
+searching for things and recording things and recognizing patterns.  But they
+can't /understand/ things.
+Example.  I thought it may be cool to write a program that automatically
+indexes my internet bookmarks for me, since they are getting rather out of
+hand.  It just has to grab each one and figure out which category it should
+belong in.  Easy, ne?  Well.  It can get the list of all the websites, yes,
+and it can store and retrieve the list, yes, and it can build up and organize
+and retrieve the tree of categories.  But how can it know which site should go
+in which category??  Simplest solution is to have me just tell it, but then
+what's the point of having a program in the first place??
+...Actually, this may be possible, especially in Prolog.  It won't be able to
+make choices, exactly, but it may be able to make, in effect, an educated
+guess.  'Twon't be easy though.  Zeroth, make sets for all categories.  First,
+grab the site.  Second, parse it and search for certain key words and
+phrases that get mentioned X or more times.  Third, stick the site in the
+appropriate sets.  Fourth, let the human edit.

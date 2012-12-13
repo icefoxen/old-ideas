@@ -1,0 +1,4 @@
+Think of Erlang's bit-packing and un-packing mechanism.
+Then apply it to strings.  Either absolute length, or matched by (simple)
+regexps.
+Whoo!  scanf()++!

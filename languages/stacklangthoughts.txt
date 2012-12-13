@@ -1,0 +1,49 @@
+# An example of multiple returns being left on a stack.
+# Hmmm...
+sumandmul( x, y )
+   psh x + y, x * y
+
+10 20 sumandmul -> s: 30, 200
+
+
+Oooo.  Think of Rogue.  Imagine that you can pop off and save the top n items
+of the stack, and push them into another stack.  So you can basically unwind
+the stack to a certain point, do something with it, then restore your place.
+Hmmmmm....  Very basic and simple in concept, but what can you do if you
+combine it with recursion?
+It sure makes nifty-dandy-keen exception handling, for one.  You could also
+jump back more than one function on a return, very quickly.  What might it do
+to tail-recursion?  Not much, really...  A bunch of args and function pointers
+could be used to represent something sorta like a reverse-continuation, or
+probably a continuation itself with some hacking.  
+So that adds a third stack after the arg stack and call stack: a stack stack.
+Heh.  A temporary stack, really...
+
+Now, if you can specify explicitly how many args are pushed and popped, we can
+make it secure against weird bugs, and even do some static type-checking.  But
+if we also want variable args and returns, then it's not so easy.  Ah well.
+
+So now...  Can one var represent more than one item on the stack?  We're going
+to have some interesting interactions between the stack, arrays, and array
+slices, that's for sure...
+
+Hmm...  In Forth, all local vars and args are on the stack.  In Pop though,
+only args are on the stack; local vars are held on to differently.  Hmmm.
+Handy, perhaps.  Certainly more secure than the Forthy way.  Now, lexically
+bound or dynamically bound?  Lexical is Common Lisp-y, dynamic is Traditional
+Lisp-y.  Well, lexical, though both should be possible.
+
+Closures?  Hmm.  How would those work?  Interesting, and worth thinking about.
+Well, really, I suppose they'd work more or less like any other language.
+
+DO NOT be tempted to optimize this, just yet.
+
+Ooooh.  Pop has two ways of pushing results to the stack: you can just leave
+them there from the func body, OR you can explicitly specify variables to be
+pushed at exit.  Shibby!
+
+Hmmm...  The idea of Haskell-y typeclasses looms again.  We'll see.  This so
+far seems fairly loosely typed, which makes typeclasses pointless.  It's such
+a shibby idea though!  ^_^
+
+Take a look at Joy and Epiphany, just because.

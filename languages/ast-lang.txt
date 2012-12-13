@@ -1,0 +1,23 @@
+
+Syntax-independance... that's a nice idea.  Have one fundamental form for the
+code, the AST.  And then just un-parse it as necessary into whatever form is
+most pleasing.
+Problems: It only does syntax, it doesn't actually translate to
+(language-of-choice).  The point is to make languages closer together, but it
+doesn't really do that.  It DOES mean that syntax can be
+programmer-controlled, however you want.  This can solve/sooth some issues of
+"it looks like Pascal" and "not invented here".
+
+Question: Can we extend the syntax-frontends to make the language more
+sophisticated?  For instance, add a "foreach" loop when the AST language
+itself only has "for" loops...  We should be able to.  That turns the
+translator from just a de-parser to a compile-time macro processor.  Shibby!
+However, the problem with that is de-expanding the macros for some other
+language.  However, with the AST it's really just a matter of sufficiently
+smart pattern-matching being put into each un-parser...  That can be done.
+
+So the frontend display would sorta have several parts: The AST language, the
+macro/pattern-matching system for turning AST into the target text form, and
+perhaps something that takes the target text form and does pretty-printing on
+it (possibly outputting it to different formats, such as PS or HTML)
+

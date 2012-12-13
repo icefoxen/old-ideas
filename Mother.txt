@@ -1,0 +1,277 @@
+IDEA: a program that can manage and provide various services for your
+computer.  Things like organizing email, analyzing weblogs, snaffling and
+organizing files from the Net, that kind of stuff.  The idea is that if I
+build these services with a common background, I'll eventually be able to add
+a bit of AI and make it smart enough to do some things on it's own.
+The idea came from sci-fi books where a person or company or something has an
+AI "majordomo" who takes care of some of their junk.
+Basically, it's an automation engine.
+
+Anyhoo, I have a pretty good idea of how things should work now, but not as
+good an idea of what it should actually DO.  It could become a pretty neat
+remote admin/config tool, but that's not really what I want.
+
+NAME: Well, "Majordomo" is already taken by a mailing-list program, so I can't
+use that.  So...  How 'bout "Mother"?  *ebil grin*  Massively Optimizing The
+Hellishly Erratic Records?  Multiple-Object THeoretical Efficiency Reorganizer?
+Main Operating-Type psuedo-Heuristic Experimental program Relay?
+
+LANGUAGE:  Python to start off with.  I may add some C or something for speed
+and/or low-level junk (if such is necessary), or Lisp or Scheme for AI.  It
+will probably make heavy use of third-party utilities, which makes things
+rather less compatible/universal, but that can't really be helped...
+
+STRUCTURE:  This is important, 'cause it has to manage some VERY diverse
+tasks, and it should (eventually) be able to excersize some judgement over
+them.  So...  
+1) a central "mind" or "server" module that ties it all together and manages
+all the information and resources.  This should basically tell everything else
+what to do, and manage some common resources (like databases) and config data
+(like net connection info).  I'll call it the Brainserver.  It can work over a
+network; this wasn't the original plan, but it seems to have evolved into it.
+2) modules.  THESE are where the actual functionality comes in.  They are any
+program that does a job as instructed through the Brainserver, and conforms to
+the information-exchange protocol.  They can be on remote machines and
+executed over the network, though the present utility of this is questionable.
+They are what actually Do Stuff.
+3) an Igor server, which executes the modules on local or remote machines and
+then passes communication off to the Brainserver.  It should also do some
+checking that the module isn't doing anything nasty and out-of-bounds.  That's 
+all.
+4) an interface, such as a GUI.  other options would be HTTP/webpage interface
+(security risk!) and voice-interface (probably rather limited; maybe I can at
+least dig up a synthesizer package so it can talk to you ;-)  How exactly the
+interface is designed to portray various kinds of disparate information is yet
+uncertain.  The Brainserver itself will probably have basically a command-line
+and some shortcuts, but how do the modules portray their information???
+
+MODULES:
+Modules can take any form as long as they obey the rules of the protocol,
+described below.  Here are some potential ideas.
+
+Address book
+Keeps track of your addresses and phone numbers and such.  Should have a very
+easy interface to use, should auto-maintain.
+
+Auto editor-launch / "recent works" selection.  This should just keep a list
+of all the files and projects you've worked on most recently, and provide a
+handy way to get to them.
+
+Regexp field search.  A way of paging through, searching, and organizing lists
+of regularly-delimited data.  Such as my quote list.
+
+Eliza or some similar artificial-conversation program.  Might be fun.
+
+Service-tracking.  Keeps an eye on what TCP ports you have open, what servers
+you have running, etc.  It should also do log analysis and reporting.
+
+DWIM.  Do What I Mean.  The problem here is that I'm not certain what exactly
+I mean by that.  ^_^
+
+Net-searching.  It should be able to search for stuff on the net via the
+engine of your choice, and refine the search (searching through the grabbed
+material, grabbing samples of the pages in question, etc).  Will probably
+require special configs for each search engine, but these are relatively
+easily maintained.
+
+Instant Messenging/IRC.  This may be rather hard to implement, at least
+reliably.  Maybe some backend like NAIM or something could be used.  Anyway,
+it should be able to either a) just log and record your IM's, or more
+hopefully b) respond to them as an answering-machine, ideally with some
+intellegence.  By that I mean be able to do things like ask to take a message
+and Notify (see below) later, or respond with "Oh, he wanted you to know..."
+Stuff like that.  Being able to take commands via IM/IRC would also be useful,
+with some security restrictions (again, see below at Remote Access)
+
+Dice-roller.  Indefinate number of dice and sides (up to a machine-word, at
+least).  It would just be handy.
+
+Maps.  Automatically search for and grab maps off the web.  It's something
+that's useful, but annoying to do.  Let's make it easier.
+
+Picture index.  It should be able to index pictures; so you just say "get me
+some neat desktop backgrounds!" and it pops up all the options.
+
+HTTP Tunnel?  This is a rather... experimental idea.  Basically, it turns your
+computer into a SOCKS 4/5 proxy and lets you thus jump over other proxy
+restrictions.  Got the idea from a program of the same name; it may be useful
+to have a universal simple net connection like that.  'twould need an outside
+server to work though, which wouldn't be good.  It's just an idea.  Could be
+useful in establishing a connection between Igors or possibly seperate
+Brainservers.
+
+LAN analysis.  Does an automatic ping, portscan and resolve of your LAN.
+Could be configured to measure the uptime of vital servers and such.  Just may
+be handy.
+
+Budgeting.  A basic debit/credit balance sheet.  Again, just may be handy.
+
+Mail access?  Automatically grabs and downloads your mail, either from a POP
+server or (more interestingly) from a web-based service such as Yahoo.  Can
+use "regexp field search" above to analyze it.  This Could Be VERY Useful.
+
+Web-snaffle.  Tell it to grab a file or series of files off the web.  This
+would probably just be a front-end for netcat, wget, curl, or something
+similar.
+
+
+BRAINSERVER FUNCTIONS:
+The Brainserver should be able to, as the name implies, make some decisions of
+it's own in certain things.  The point of this system is not to simply provide
+a bunch of little services, but to MANAGE them.  Here's a list of tools to
+help with it.
+
+Notify
+Keeps a list of things you should know about, reports you ask it for, that
+kinda stuff.  Things like someone IM'ed you while you were away and left a
+message, or you ask for a weekly web-log analysis, that kind of stuff.  Pops
+up a list when you ask it.  Varying levels of urgency.
+
+Scripting
+It should be able to perform scripted actions.  Probably Scheme-ish, possibly
+TCL-ish, maybe something else.
+
+Cron
+It should be able to execute actions at certain times.
+
+Logging
+Should keep a log of all actions performed.  Optional auto-purge, auto-rotate,
+auto-notify of exceptional events.
+
+Security
+Should have the option of requiring a username and password.  The username dig
+also raises questions of multi-user administration and differing access levels
+for different users.  Differing access should be fairly straightforward, but I
+think that administrating multiple systems/multiple users' needs would only
+make things over-complex.  Each Mother should only take care of ONE system at
+a time.
+
+Set-based FS
+This could be a VERY useful way of storing and indexing various information it
+has.  Logfiles, server executables, documents, that kind of stuff.
+
+Database
+It should use databases --either a full-blown SQL something or just a simple
+dictionary-type bsddb something-- to store and index various information.
+Wery useful.
+
+Config
+It should have some basic information on What The World Is... your preferred
+browser and editor, your name/alias, how your net connection works, that kind
+of stuff.  Oh, also version info for the Brainserver itself, and all the
+modules.
+
+
+COMMUNICATION PROTOCOL
+Okay.  This describes the interface between the Brainserver and the modules.
+The Brainserver listens on a TCP port.  That's 'cause you can't share streams
+between arbitrary languages, Unix sockets aren't portable, and read/write a
+shared file is subject to interference and hard to synchronize.  Anyhoo.  The
+BS listens on a port.  Each module is a complete program that connects to the
+port and makes a request.  It's then passed off to a second port a la FTP so
+the original port remains open.  The BS checks if the request comes from an
+authorized machine (id est localhost), and if so, sends a reply to that
+machine to confirm (to make IP spoofing harder).  If the machine responds
+saying "Yes, dammit!", then the connection is made good and the machines trust
+one another.
+It can also do encryption (SSH or GPG), and user/pass authorization.
+The one problem with this is that it's backwards.  It acts like the module
+makes a request to the Brainserver, when exactly the opposite is happening:
+The Brainserver is requesting a service from the module.  This is a problem
+'cause the module is a one-shot program, not a continuous service.  It
+shouldn't listen on a port for it's request.  There's a lot of modules; it
+would waste RAM, CPU and ports, and make things more complex.  Instead, the
+Brainserver executes the module, which then goes through the TCP/auth dance to
+transfer data.  Problem with THAT is that the Brainserver can't execute
+modules on remote machines, however, ignoring such an obvious power is a
+mistake.  So instead we have an "Igor" server running on whatever remote
+machine the modules are on.  The Igor takes a request from the Brainserver,
+then executes the desired module and points it at the BS so they can talk.
+Therefore, it connects the brain to the rest of the assorted bits and pieces,
+hence the name.  ;-) 
+Actually...  Have an Igor run on the local machine as well, excecuting the
+local modules.  It makes the Brainserver much more portable and flexible,
+'cause it makes the process of actually starting a module completely abstract
+for the BS.
+
+INFORMATION PROTOCOL
+The actual protocol used by the module to talk to the Brainserver is yet to be
+precisely determined.  Say...  The module sends the BS a XML document that
+describes all the possible actions and types of information it takes, and the
+type of information it responds with.  This is probably cached.  Take a simple
+example, a dice-roller module.  A request to it has only two properties, so
+rolling 3d6 would be:
+<roll-dice>
+ <sides> 6 </sides>
+ <sides> 6 </sides>
+ <sides> 6 </sides>
+</roll-dice>
+And returns:
+<dice-rolled>
+ <dice sides="6"> 3 </dice>
+ <dice sides="6"> 2 </dice>
+ <dice sides="6"> 5 </dice>
+</dice-rolled>
+Yeah, it can be called needlessly verbose, but XML is like that.  It describes
+very precisely what kind of information is being transferred, though.  None
+of this is really meant to be human-readable, and the size of the data doesn't
+matter much 'cause it's only sending to your own computer anyway.  Anyone who
+scatters his modules over the Net is just asking for it.  This is designed to
+be a PERSONAL information management and processing system.  It's geared to an
+indivdual user.  A corperate version of this may be damn useful also, but it's
+simply not the problem I'm trying to solve right now.
+This protocol is neat 'cause it means that a Brainserver doesn't have to
+undergo any internal changes to recognize a new module.  However, it SHOULD be
+told when a module is no longer avaliable.  
+
+INTERFACE
+How exactly this data is displayed, of course, is another issue.  Probably
+solved with more XML describing a GUI layout, or at least how to parse it as
+plain-text.  It may be useful for each module to have a Python graphical
+front-end, but that's rather inelegant.
+Each module could, along with it's DTD's, also send data on how to build the
+GUI.  A fair amount of the latter's syntax can probably be lifted from
+Mozilla.  
+Another option is to have it largely text-only.  That would be good 'cause
+it's simpler.  Each module would have it's own commands though; some
+convention would be good.  It's tricky though.  
+This is a problem we have to think about.  A Mozilla-type graphics engine
+would be complex, slow, and HARD to program.  'Twould be much better if we can
+use an already-existing library... Gecko, Mozilla's engine?  Maybe.  There's
+gotta be a better way though, I just have to think of it.
+Actually... the interface should be customizable.  Hackers love to tweak
+things, after all.  I need to find something as flexible as the rest of the
+system.
+TCL, maybe?  It's ugly, but it could be exactly what I'm looking for...
+Can you log in and get reports and issue commands via telnet?  SSH?  Instant
+Messenger?  On the web?  'Twould be very cool, and very useful...  However,
+it's also a security risk.  Like everything else in the world.  Could help if
+you just restrict the kinds of commands that can be given...
+Voice recognition/speech synth?  I just think this would be cool.  I'm not up
+to programming it myself though, so it'll rely on whatever free libraries I
+can find, if any.
+
+EXECUTION MODEL
+This is basically a summary.
+
+The Brainserver sends an Igor a message saying "Execute module X; I'm on
+computer Y listening on port Z".
+The Igor sends back "Are you who I think you are and not a cabbage or
+something?  Or are you just spoofing the IP?  Is this port open?"
+The BS sends back "Yes, dammit!"
+The Igor then checks if module X is safe, then executes it and tells it to
+report to computer Y on port Z.
+The module connects, which inherantly asks "yo, u dere?" and the BS
+inheriantly replies "Yep!" by accepting the connection.
+The module sends it's DTD for both the types of requests that can be made of
+it, and the format in which it replies.  It also sends the interface
+definition(s), in whatever form that takes.
+The Brainserver then tells the module to do whatever.
+
+Issues with this: There has to be a way for modules to tell the BS to do
+things, such as invoke a different module, set a notification, or that kinda
+stuff.  That just uses it's own little XML protocol, since the functions of
+the BS are pretty well-defined.
+The BS has to cache DTD's and interface info.
+It also has to keep track of what modules it has; Igors must inform the BS if
+the modules change.

@@ -1,0 +1,115 @@
+DANCER SPECIFICATION
+Last changed: 9/9/2003
+
+CHAPTER 0
+
+0) Introduction
+All right.  This is a specification for a new computer language I'm designing
+called Dancer.  Dancer is a high-level compiled language, hopefully
+appropriate for various types of application programming and such.  It's
+almost fully object-oriented, 'cause that lets you do lots of cool stuff, and
+is late-binding (methods and data don't know their type until runtime; in
+fact, classes don't even know what methods they have), which sounds dangerous
+but really lets you do lots more cool stuff.
+
+I've basically snatched pieces I like from any language I happen to find
+interesting; you'll find big chunks of Smalltalk and Ruby in here, along with
+some Haskell, Lisp and Scheme, and maybe even some Python and Java.
+
+I am designing this because I want to, and because I am sick of... well, many
+things.  Linkers that haven't changed since the 1970's, for one.
+Interpreters, because no matter how nice they are to use, the fact is that
+most people don't have them, which makes it hard to actually distribute even
+the simplest of programs.  Those kinds of problems.  
+
+Which sort of brings us to the point.  I can rattle on all day about ideals
+and ideas and where other languages are lacking and what I want to do with
+Dancer, but that gets old fast, and only gets me worked up.  Besides, there's
+no real right answer.  I'm just doing this 'cause I think it'll be fun, and
+hopefully useful, and whatever happens I'm gonna learn and do some pretty cool
+things.  If you have an idea that you think I should know about, by all means
+tell me, since every creator loves feedback.  Suggestions and advice are
+therefore welcome, as long as you don't get all snarky if I reply with "Sorry,
+I like it the way it is".
+
+
+0.1) Aknowledgements 
+Well, there are really too many people to list them all, even as a summary.
+So I suppose I'll just dedicate this to anyone who helped teach me that in
+some things, there really are no limits.
+
+
+0.2) Document conventions
+I'm writing this for myself rather than anyone else, but I'll try to stick to
+some conventions and not make up too many new terms.
+
+All code should be written in "quotes" or on their own lines delimited by
+---'s.  The symbol ==> represents evaluation, for instance "+ 4 5  ==> 9".
+And if I use the word "shibby", know that it's a good thing.
+
+
+0.3) Language conventions
+Most of the conventions are stolen from Scheme and Java, 'cause they're pretty
+good ones.  Dancer IS case-sensitive, so we use Java's capitalization syntax.
+Variables and methods are firstWordLowercase.  Classes, global variables, and
+package names should be AllInCaps.  Constants should be in ALLCAPITALS.
+Methods that return TRUE or FALSE end in a ?, and methods that modify their
+arguments end in a !.
+
+I try to keep abbreviations down to a minimum, but without making things too
+hard to type.  'Tis sort of a balance.
+
+Dancer files have the extension .dcr
+
+Any value except NIL and FALSE evaluate to TRUE in a boolean test.  Including
+0, including the empty list [].
+
+Methods and classes should have docstrings, which 1) describe the type and
+purpose of the method arguments, 2) describe the return value of the method,
+and 3) describe the method itself.
+
+
+0.4) Problem Domain
+Here I'll just include some junk from my notes:
+
+What do I want this compiler to DO?
+I want it to dynamically link
+I want it to manipulate functions as values
+I want it to GC
+I want it to compile  --As opposed to interpreters
+I want it to execute fairly fast
+I want it to have easy access to standardized system info
+I want it to have a nice module system --Java, Python, Haskell
+
+What do I want this language to DO?
+I want it to have delayed evaluation --blocks, special forms, etc
+I want it to be dynamically typed --values have type, not vars
+I want it to do low-level stuff
+I want it to be OO, to a degree --how much?  Utterly?
+I want it to have a simple syntax --unlike Ocaml, Perl, Ruby
+I want it to have keyword, preset, and variable-number args
+I want it to have a good exception system
+I want it to be flexible in concept --unlike Lisp, Haskell, Smalltalk
+I want it to have docstrings
+I want it to be able to have anonymous funcs --see delayed evaluation!
+I want it to have in-built support for complex data structs (lists)
+I want it to be fairly simple in concept --unlike C++, Haskell, Lisp
+I want it to have symbolic manipulation
+I want it to have good exception handling
+
+What problems to I want to SOLVE this language?  Problem domain.
+Info-crunching, text-processing, simulation
+Graphics
+C FFI
+Systems
+Toolsmithing, practical applications, games
+General-purpose
+
+I want a reasonably quick, compiled language suitable for large-scale
+application development.  No smart remarks about C++ or Java, y'all, they
+don't qualify.  Sucky language and sucky speed, respectively.
+
+Other problems worthy of consideration:
+Multithreading
+Glue, both low and high level
+Networks

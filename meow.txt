@@ -1,0 +1,15 @@
+A UI experiment.  Look up the Canon Cat on google to see what I mean, then
+write a program similar to it.  Shouldn't be too hard to get the basics
+done...
+
+
+Issues: Non-texty data.  GKrellm gives a good example; a page just updating
+that?  What about playing MP3's?  Basically it turns into using text as a
+universal interface-tool, and not necessarily a good one...
+Organizing a lot of data.  How do I keep my 185 megs of miscellanious source
+code organized?  What about object code and executables; there's no real
+equivilant, how does it work?
+
+Basically, it's just fine as long as all you do is a lot of writing...
+
+

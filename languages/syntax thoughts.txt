@@ -1,0 +1,182 @@
+Pollux syntax:
+(Object (subclass Point)
+   (doc "A point")
+   (vars x y)
+
+(method! init
+   (set x 0)
+   (set y 0))
+
+(method@ x ((newX :default))
+   "Accessors"
+   ((newX equal :default) if
+      x
+      (set x newX))
+
+(method@ y ((newY :default))
+   "Accessors"
+   ((newY equal :default) if
+      y
+      (set y newY))
+
+(method@ move (newX newY)
+   "Movement"
+   (((newX >= 0) and (newY >= 0)) 
+    if
+      (set x newX)
+      (set y newY))))
+
+
+Dancer syntax:
+class Point (Object)
+   "A point"
+   (x 0 x)
+   (y 0 y).
+
+method move Point (newX newY)
+"Moves the thang"
+   (if (and (>= x 0) (>= y 0))
+      (set! x newX)
+      (set! y newY)).
+
+
+Make it a tad Haskell-ish --Controls structs, vars, and assignments are NOT funcs!
+class Point (Object)
+   "A point"
+   ref x (x) = 0
+   ref y (y) = 0
+
+method move Point (newX newY)
+   "Moves the thang"
+   if (and (>= x 0) (>= y 0))
+      x := newX   ; (set x newX)?  How would := integrate in a (func?)
+   else
+      y := newY
+
+
+Make it more OO --Method calls belong to an object.
+class Point (Object)
+   "A point"
+   ref x (x) = 0
+   ref y (y) = 0
+
+method move Point (newX newY)
+   "Moves the thang"
+   if ((x >= 0) and (y >= 0))
+      x := newX
+      y := newY
+
+Make it Smalltalk-ish, with blocks...
+method move Point (newX newY)
+   "Moves the thang"
+   (((x >= 0) and (y >= 0)) if
+      {x := newX}
+   else
+      {y := newY})
+
+More Lispy, with lambdas (<>) instead of blocks...
+method move Point (newX newY)
+   "Moves the thang"
+   (((x >= 0) and (y >= 0)) if
+      <(set x newX)>
+   else
+      <(set y newY)>)
+
+
+More Lispy still, with a syntax (message obj args) instead of (obj message args).  Is assignment a method call, then??
+method move Point (newX newY)
+   "Moves the thang"
+   (if (and (>= x 0) (>= y 0))
+      <(set x newX)>
+   else
+      <(set y newY)>)
+
+Assume that "if" IS a method call.  We would have:
+method move Point (newX newY)
+   "Moves the thang"
+   (if (and (>= x 0) (>= y 0))
+      <(set x newX)>
+      <(set y newY)>)
+
+Assume it ISN'T.  We would have:
+method move Point (newX newY)
+   "Moves the thang"
+   if (and (>= x 0) (>= y 0))
+      <(set x newX)>
+   else
+      <(set y newY)>
+
+Hmm...  Y'see, I DON'T want it to be too slavishly OO, but it's so /easy!/.  But if I do that, I'll have to define a /lot/ of code, and that's sure to bite me in the ass someday soon.  Also, it tends to be hard to read if every "if" is a message call.
+eek!  And I'd have to distribute the entire class library with each app!  Well, that could be done... I can probably compile it down a fair amount.  I won't have to do it necessarily Smalltalk-ish, with a whole slew of supporting classes, it can be barer like Eiffel.
+
+
+But if I have this block-passing ability, why don't I use it, hmmmm?  And control structures is a perfect way to do it.  Plus, you can write things like:
+(from 0 9
+   <(x) (print x)> )
+And it also gives me an already-defined and rather powerful value-passing and evaluation model, which was where I fucked up before.
+It also screws up doing blocks by indentation, but that's okay 'cause I have <> for blocks.
+
+(from 0 9
+   <(x) (call <(x) (print x)> x)>)
+Ew.  The <(<()>)> is rather ugly.  Hmm...
+from 0 9
+   <(x) call <(x) print x> x>
+
+But then method-chaining is ugly, 'cause I have to use parens anyway to do things like
+read (open file)
+and
+<(x) (print x) (print (+1 x))>
+Seperators?  Not bad, actually....
+<(x) print x, print (+1 x)>
+<(x) print x
+     print (+1 x)>
+Or maybe....
+(from 0 9
+   >((x) 
+     (call 
+       >((x) (print x)) 
+       x)))
+Nah.
+
+
+***Total-OO Lispy-call syntax***
+method sort (lst)
+   (insert (car lst) (sort (cdr lst))).
+
+method insert (elt lst)
+   (if (empty? lst)
+      <[elt]>
+      <(if (lessEqual elt (car lst))
+          <(cons lst elt)>
+          <(cons (car lst)
+                 (insert elt (cdr lst)))>)>). 
+***
+***Total-OO sequence-call syntax***
+method sort (lst)
+   insert (car lst) (sort (cdr lst)).
+
+method insert (elt lst)
+   if (empty? lst)
+      <[elt]>
+      <if (lessEqual elt (car lst))
+          <cons lst elt>
+          <cons (car lst)
+              (insert elt (cdr lst))>>.
+***
+Hmm... they actually aren't that different.  The latter is actually easier to read, let alone write, so I'll go with that.
+So, a message-pass goes "message object args" and ()'s can be used to declare prescedence.
+
+
+
+Continuation-passing...  Enables functional control-structs.  May be useful regardless.
+(if x
+   >(print 10)
+   >(print 20))
+
+Instead of (func (x) ...), how 'bout <(x) ...>?  Yeah, okay.  that makes the above:
+(if x
+  <(print 10)>
+  <(print 20)>)
+
+Any value that is not nil or false, is true.  nil does NOT equal to an empty list.
+

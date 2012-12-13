@@ -1,0 +1,499 @@
+DANCER REVISION
+
+*What do I want this compiler to DO?
+I want it to dynamically link
+I want it to manipulate functions as values
+I want it to GC
+I want it to compile
+I want it to execute fairly fast
+I want it to have easy access to standardized system info
+I want it to have a nice module system --Java, Python, Haskell
+
+*What do I want this language to DO?
+I want it to have delayed evaluation --blocks, special forms, etc
+I want it to be dynamically typed --values have type, not vars
+I want it to do low-level stuff
+I want it to be OO, to a degree --how much?  Utterly?
+I want it to have a simple syntax (unlike Ocaml, Perl, Ruby)
+I want it to have keyword, preset, and variable-number args
+I want it to have a good exception system
+I want it to be flexible in concept (unlike Lisp (well, Scheme), Haskell, Smalltalk)
+I want it to have docstrings
+I want it to be able to have anonymous funcs --see delayed evaluation!
+I want it to have in-built support for complex data structs (lists)
+I want it to be fairly simple in concept (unlike C++, Haskell, Lisp)
+I want it to have symbolic manipulation
+I want it to have good exception handling
+
+
+*What problems to I want to SOLVE this language?  Problem domain.
+Info-crunching, text-processing, simulation
+Graphics
+C FFI
+Systems
+Toolsmithing, practical applications, games
+General-purpose
+
+I want a reasonably quick, compiled language suitable for large-scale application development.
+
+*Other problems worthy of consideration:
+Multithreading
+Glue, both low and high level
+Networks
+
+Hehe.  These goals, at least, haven't changed.
+
+
+
+Hmm.  Lispy syntax...  Nice 'n' easy to parse.  Typeless.  Static binding.  No EVAL.  Functional mostly.  Iterators?  Lambdas.
+
+Built-in data structures: structs, lists, objects, arrays.  Dictionaries?  Maybe.
+
+Function call is (foo arg1 arg2 ...).  Optional args, keywords, and var-length args all exist.
+
+ObjC.  Things are loose and fluid, but CAN be specified if necessary.
+
+
+
+(df fact (x)
+   (* x (fact (dec x))))
+
+(df fib (x)
+   (if (< x 2)
+      1
+      (+ (fib (- x 1))
+         (fib (- x 2)))))
+
+
+(df build-list (x y)
+   [x, y])
+
+(df build-list (x y)
+   (cons x (cons y [])))
+   
+
+(use IO)
+(df main ()
+   (IO:println "Hello world!"))
+
+
+More song-ish?
+df main:
+   (IO:println "Hello world!")
+
+Nah.  Not fluid enough.
+
+Iterators, though?  Maybe.  Has potential perhaps.
+(iter while (b)
+   (if b
+      (repeat)))
+
+(iter fromto (f t)
+   (if (< f t)
+      (yield (inc f))))
+
+Meh.  Nah, not now.
+
+(df reverse (lst)
+   (if (> (len lst) 1)
+      (cons (reverse (cdr lst)) (car lst))
+      [(car lst)]))
+
+
+
+Grar.  I should grab Arc...  But I can't 'cause it's not released yet.
+
+Hm.  Start with something Dancer-ish, and dike out the blocks and make it functional.
+What about control structs?  Also functional, at least in appearance...  Special forms, heh.
+
+df reverse (lst)
+   (if (> (len lst) 1)
+      [ (reverse (cdr lst)), (car lst) ]
+      [ (car lst) ]).
+
+Heh, then I just have what I had before, pretty much.
+Anyhoo, I want it to be rather more dynamic than Ocaml, but not quite as much so as Lisp.  Objective C is a good model.
+
+Hmm.  I can't make it UTTERLY OO; Dancer tried to do that and gave me a certain amount of anguish over it, I recall.  Particularly data structures.  Multiple dispatch is a really nifty idea but gets rather painful rather quickly once you try to make complicated heirarchies with it.   For instance, is foo( bar, bop ) more specific than foo( bop, bar )?  See?  It's hard enough WITHOUT inheritance.
+
+Grar.  This delimited syntax is really icky.
+
+Well...  Completely OO, with functions/class methods, single inheritance...  These are all fundamental.  I want dynamic binding a la Objective C.
+Well.  I COULD just make Song have dynamic binding, heh.  That might actually work quite nicely, what with unions tentatively solved...Hrm.
+
+A Forth-ish stack language would make a pretty good intermediate representation for a language.  It'd be easy to compile, if possibly hard to analyze...  But all you'd need are pointers, arithmatic, decisions and jumps.
+Well, that's all you'd need for any IR.  But still, 'twould be pretty easy to port.
+
+
+
+
+FORTH-LIKE LANGUAGE
+
+Hmmm...  A stack-ish language still sounds enticing, but Forth has some drawbacks as a medium-level language.  Well...  Function calls are fast, consisting of just a push and a jump, but it's hard to control what goes in and out of a function.
+Well, it could benefit from some compiler control there...  Just tell it how many operands it takes and returns, and their types also I suppose.  Or I COULD do inferred types like Ocaml...!  Possibly, yesh.  Hmmmm.
+
+Anyway, the main flexibility of Forth is the lack of compiler control.  And the main power is the same.  The only kind of abstraction is pointers and (unchecked) functions, which allow for a whole shitload of flexibility and also forces the programmer to keep track of all of it.  It's basically an interactive assembler with a few extra constructs, so.  Higher-level languages basically offer checks that things won't go wrong, through functions, type-checking, structures and other compound types, etc.  Abstraction, which basically is a set of rules that say certain things won't go wrong if you follow them.  What makes a language more or less powerful is how flexible and safe these rules are.  
+
+A really nice and simple way of providing some safety would just be keeping track of the number of operands and return values of functions... that way the compiler can make sure your stack always matches up.  Each function would just sorta exist in a limited chunk of space, accessing only the Nth items from the stack.
+However, if I do that, then it's only another short step to referencing vars by name instead of stack position.  And then I just get rid of the stack completely...
+Ah, but without a stack, you have a bloody icky time returning multiple values...
+
+
+Lambdas!  They're pretty easy to compile, since you just thread down the function addresses, jam them in some memory, and stick them on the stack.
+Closures are harder, because local vars exist only on the stack and it's tricky to keep global (malloc'd) in one spot.
+It's hard to localize data because a function can always return pointers to it.  This basically defeats any lasting scope; closures, continuations, etc.  Block scope is okay because local vars are jammed onto the stack, so they don't exist if something tries to return them.
+
+PACKAGES! are a must!
+
+The Forth code
+
+  A B C D
+
+could be analogous to any of these Lisp expressions, and in addition, it could leave stuff on the stack, or cause a stack underflow:
+
+ (D A B C)
+
+
+ (D (C A B))
+
+
+ (D (C (B A)))
+
+
+ (D (C (B (A))))
+
+
+Dealing with memory in Forth is ICKY!
+References instead then????
+
+ADT's...
+
+Compiling lambdas is easy here!!!  Look at Joy for instance.  [ 2 + ] can be pushed onto the stack.  To do so, it's parsed at runtime, threaded down into function pointers, stuck in a free bit of memory (stack? GC? Permenant?), and has a pointer returned to the stack.  Then "call" just runs the interp over it, yay!  W00t!
+And of course, that simplicity relies on the fact that the args are undefined...
+But that also means that programs are data, haha!  If [ 2 + ] is just a list, it can be appended, manipulated, hell, reversed! and it's still valid!  And it also means that composing or calling functions can be done just by appending them, hah.
+
+What's the general domain of this language?  For low-level we have Song, but this isn't terribly good for big huge high-level projects...  Bit of a fix that.  It might be interesting anyway...
+
+A stack-y scripting language may be interesting though...
+
+Untyped?  Loosely typed?  Tightly typed?
+
+
+
+LISPY LANGUAGE
+
+Okay.  This is hopefully compiled but with a really nice-good-flexible runtime.  In fact, there should be no real difference between the language, compiler, linker, and runtime.  Majorly Lispy.  Simple syntax (fast to compile!), hopefullly simple semantics also.  Scheme without call/cc and with some extra extensions, perhaps.
+
+But anyhoo.  Function manipulation, functions should be able to be compiled at runtime (like Lisp, but use (compile) instead of (eval), a la SBCL).  JIT compiler, to use a buzzword, but have it so implicit that you don't even notice.
+
+Functions and closures are first-class objects, of course.
+
+Package system, or just a image/runtime?  Hmmmm....  Namespaces.  Make it less weird than CL, but at least as powerful as Ocaml if not more.  Have the power in the /model/, not the details (make it so that renaming a function is an implicit feature, not an add-on hack, for instance)
+
+Hopefully it'll be high-level enough to write good apps easily and do all those things Lisp is good at, but low-level enough to do data-structure wonking and rough algorithms and all those things C is good at.  I'm not saying have pointers and asm access and such, but DO see if you can use it for systems-programming...  As in BUILDING systems, not just modifying it's own...
+
+Lispy or Camly or Haskelly syntax?  Hmmmmm....
+
+It is not a language to write programs, it is a language to write languages.  You start with a problem and start writing a language to solve it until doing so becomes trivial.
+I should be able to write the debugger, object system, etc, IN the language!
+
+LOOSELY typed, DYNAMICALLY typed, but not UNtyped.
+
+Each function contains a pointer to it's source code...  What about source environment then???
+
+Okay, make it a platform.  A system.  Have it just load from an image from disk (no file system), and all the data (documents, source code, etc) is held onto in memory a la Samlltalk.  That way programs only know about the data they care about.  You just open a word processor and hey, there are your documents.
+Well that makes it hard to find generic data...  Say for a hex-editor; you need to open ANY kind of data.
+Well, the system can index it.  And then it's still not really a filesystem because data is transferred between apps via IPC mechanisms.
+But then, that still encourages each program to invent it's own data-heirarchy, so the system has to define that too...
+Cold boot vs. warm boot vs. soft boot.  Differs on how much live data is cached vs. how much is generated anew by the system.  
+
+Hey, a platform doesn't have to be that complex.  C is a platform too.  So is Java and Smalltalk and Obj-C (openstep) and so on.  A platform is mostly just a convention for doing things.
+
+Functions evaluate their arguments.  Special forms are syntactic keywords; they evaluate some of their arguments but not others.  Macros transform their arguments, then evaluate the results.  Special forms and macros are invoked just like functions, but hopefully have some way of distinguishing them, either via program feature or naming convention.
+
+There are two paths to completeness: take stuff away until there's no obvious deficiencies, or put stuff in until same.
+
+Needs discovery ((apropos), dir(), inspect, display) and inbuilt documentation (source pointers, docstrings).
+
+Debugger; suspend, REP loop, etc.
+
+F1 help, command completion...
+COMMAND completion!  So "set (F1/tab)" shows a list of all the things that can be set.
+
+Whoppers/wrappers a la Genera Lisp: methods that execute a certain method inside an environment.  Wrappers, really.  For instance:
+(defwrapper bop (x foo)
+   (unwind-protect
+      (bop x)
+      (make-sure-whatever)))
+
+Macros!  (with-whatever x) forms especially!  Can special forms be defined to do that instead of macros?  Hrm.  The difference might be interesting...
+
+OPTIONAL static type-checking a la Ocaml.  Basically, if it's turned on, then each function/program is type-checked when it's compiled, and warnings/errors given for ambiguous forms.  An ambiguous form is any one that can take or return more than one type of data.  There are also parameterized types.  
+Data heirarchy, so that a Number is a supertype of Fixnum, Float, Bignum and Ratio?  And Sequence is a supertype of List, Vector and String?  Hmmmm...  Might be useful.
+What might be MORE useful though, are functions that take one type of data and TREAT IT as another type.  For instance, union, intersection, etc. can all take a list or array or whatever, and treat it as a /set/, without having to mess with other Collection and Set data types.  Hmmmmmm....  That might REALLY be worth it.  Play with it.  Only problem is, it only works for LOGICAL, mathematical structures, such as a set, dictionary, ring, stack, whatever...  Well, that's not a bad thing at all.  They can just be wrapper functions that can take a list, array, whatever you want and perform the appropriate operations on it.
+But still.  That makes implementing new data TYPES really simple (REALLY simple, which I like!), but doesn't work too well when you're trying to define new data STRUCTURES, such as hashtables or skiplists or structs or so on.  Hmmm.  It's an issue of interface vs. implementation; new interfaces can be done easily and transparently, but new implementations are trickier to handle.  Still, it's a really good idea.
+
+
+Disassembler!
+
+(who-calls x) shows everything referring to x.  DATABASE.  That's not part of the basic programming language, but it's part of the SYSTEM, just as much as ls and mv are part of Unix.
+
+Variables and scope.  In Lisp, all variables are reference; they just point at a value.  They can either be REBOUND, in which the symbol points to a new value but the OLD ONE IS RESTORED AND MAINTAINED outside the scope of the binding, or they can be REASSIGNED, where the old binding is CHANGED to a new one.
+(setf x 5)      ; ASSIGNS x to 5
+(let ((x 10))   ; BINDS x to 10
+   x            ; x = 10
+   (setf x 15)  ; REASSIGNS x to 15
+   x)           ; x = 15
+x               ; x = 5
+
+Compile at read-time?  Compile at execute-time?
+
+Fundamental parts of this system:
+GC
+Language
+Core functions
+Library
+Compiler/interpreter/runtime
+Filesystem
+Shell?
+Hardware access...
+FFI
+Terminal and/or graphics system
+
+
+Binding, recursion, namespaces.  I was thinking of having it be a Lisp-1, which is good and simple.  No seperate namespaces for dynamic (global) vars or functions; though they may really be divvied up such by the compiler, they won't ACT any different.
+An issue though: Defining values vs. assigning to them, especially in the context of recursion.  In ML, for instance, everything is very tightly statically bound; you can't have recursion or mutual recursion without special syntax (let rec ... and ...;;) because the names of the functions aren't defined inside the functions.  This is STATIC binding of function names.
+For DYNAMIC binding of function names, which could also be called LATE or LAZY binding, the names aren't resolved to functions until they are called.  That takes a bit of time but is flexible, in that you don't have to bother with forward declerations and such, but also reduces the error-checking that static binding does.
+But then that still brings up a dynamic-vs-static conflict.  If the function names are dynamically bound, do they bind using the CURRENT environment or the DEFINING environment?  For instance...
+(defun x () (print 'foo))
+(defun y () (x))
+(defun x () (print 'bar))
+(y)             ; Prints ???
+So basically, is defining a function BINDING (static) to a symbol or ASSIGNING to it (dynamic)?
+In ML, it's static; (y) binds to the first x, the one that existed when y was defined.  In Lisp and Scheme it's dynamic; y binds to the second x, the one most recently defined.  Both are very sensible schemes, really.
+
+Depending on whether or not you can do things like ((if foo a b) 10 20) you could have arity and type errors.  Ocaml just checks to make sure a and b have compatable types, which certainly works, but Lisp just doesn't bother.
+
+Lisp-like break, block, return-from, throw, catch
+Lisp-like (loop)?
+
+Read ceil.pdf
+
+ADT's vs. CDT's
+Types defined by their interfaces?  But then what about a dictionary implemented as a list vs. one implemented as a hashtable... it's a nice idea but doesn't go too well in reality.  Again, data TYPES vs. data STRUCTURES.  Classes are a pretty good way of defining and extending these, really...  So how can one efficiently write a way to match a varied set of data STRUCTURE manipulation routines to a data TYPE scheme?
+CLOS??!!!  That IS a way to make a WIDE variety of data structures and types transparent through the same interface...  Read up on it more, and Dylan.  GOO also does this well!
+This also does some rather interesting things to first-class classes, type inference, and static vs. dynamic functions.
+Only single inheritance though, hopefully...  o_o  Either that or have it customarily limited to mixins.
+Hehehe...  And of course ye should be able to customize the reader and writer to build them automatically.  $(10 20 30) may translate to building a new skiplist or something, for instance.
+This also makes TRANSPARENT, HUMAN-READABLE saving and loading of data possible.  Just print something to a file, then read it back in and evaluate it.
+
+Oooh...  ML/Python-ish pattern matching combined with multiple return values...
+(set! (foo bar bop) (fun-that-returns-three-or-more-values))
+Well, then it conflicts with function calls for the first arg.  Hmm.  Still, it's doable.
+
+Some way of specifying Haskell-y functions/infinate data structures in terms of mathematics...  So the "fib" function would act like a data structure containing all the elements of the fibonacci sequence.  Hmmm...
+
+The Scheme macro-system isn't bad, in that you can define multiple syntaxes.
+
+(remove-if) and (remove-if-not).  They're just Good Things.
+
+Ocaml...
+I'm not sure Ocaml has enough flexibility and reflectiveness for the system I want.  The compiler vs. interpreter vs. libraries vs. runtime vs. code thing is particularly strict.  It's a lovely language, I just don't think it has what I want here.  Sexp syntax is simple enough to stick on it, but still.  Unwind-protect, data flexibility ESPECIALLY and REFLECTIVENESS, and that kind of neat stuff.
+It still has a LOT of REALLY GOOD STUFF though, that I shall crib off of, learn from, and outright steal, shamelessly.
+Conflicts of ocaml vs lisp:
+*Static vs. dynamic function binding
+*Flexible vs. inflexible data types
+*Flexible vs. inflexible function types
+*Linking, loading and packages --runtime
+
+Lispy syntax, OO types, Ocaml semantics?
+Heh though, how static can generic functions possibly be?  o_o
+Dynamic, slow and flexible vs. static, fast, and needing to recompile the world with each new method?
+Well, would it be that bad?  Probably not.  Well, unless you write a type, write some code for it using general methods, then write more specific methods and try writing more code...  o_O
+
+Regular dynamic functions CAN be fast.  Just have a pointer-to-a-pointer handles for each function:
+foo-->|fooptr|--->foocode
+Redefine foo...
+foo-->|fooptr|-\  foocode
+                \->newfoocode
+
+Each object can point to it's class, and it's class have a list of all applicable functions.  But generic functions still can't be fast since the issues of specificity have to be resolved and the function chosen at runtime.
+Macros are static.
+Fine, do it.  Generic functions are dynamic.  It's survivable.  Just try to make specificity-resolution fast.
+
+How would generic functions clash with type-inference?  Well, they basically SOLVE the problem of type-inference, but in a different manner; instead of each function having only one signature so it can be chosen at compile-time, each function has MANY signatures that are chosen at runtime.
+Classes DO give a strong type heirarchy though.
+But more than one type in a data struct is still messy; mapping over the whole structure would either have to resolve the appropriate functions for EACH item, or treat the entire list as a list of the MOST GENERAL item...  Ickickick.
+
+Objective C manages it, but it only judges per single object.  We'll see perhaps...  Multiple dispatch is a bitch.  I'm sure we can make some way of ordering them and a fast resolution algorithm, but...
+Wellll...  If the function lists in each class are listed in terms of overall specificity, then the first function that exists in both lists is the right one!  W00t!
+Hehehe...  Okay, that's simple, not efficient.  O( n1 * n2 ) worst-case, or maybe O( (n1 * n2) / 2 ).  Some form of ordered hashing and some fancy searching algorithms may make it better though.
+Heh...  Each class's list can just cons onto it's parent's list, which'll save space.
+OR, each combination of data can just be assigned a number, and functions that take that combination of data know that number, using it as a hash value.  W00t!  That's MUCH better!  Then it's just a pattern-match and a couple of hash-lookups rather than a linear search.
+
+The dilemma for static generic-functions is basically one of static ENVIRONMENTS.
+Say you define some classes but use the parent's methods for some or most of them.  You compile this code and it works fine.  Then you revise things and make new methods that override the old ones.  The old ones will still point at the old methods, even if the source for them no longer exists.  You have to RECOMPILE to fix it, which is Bad.  In fact, I think the principle of this system should be NO RECOMPILES.
+
+What about function-handles, as above?  Then whenever a new method is defined, the system goes through the whole world looking for uses of that method, checks whether they need to be updated, and does so if necessary.  Hmm.  I'm not sure I like such a global sanity-checker, but...  I mean, if you extend (format) to handle unicode strings for instance, a re-check and re-route will take a LONG TIME and require screwing around with effectively the entire system.  That's a rather big consequence for redefining one function.  That's static-typing with a big fat hack at each compile to make it ACT dynamically.
+
+Erk, method combinations...  The equivilant of calling super.foo(), passing control up the heirarchy.  The "simplest" way is to cast the object to a different type...  A better way is probably that if a method invokes itself, it passes up to the next-most specific one.  But then that makes real recursion impossible, dammit!
+Generic functions just cause so much bloody trouble, but I still see OO as the best way of handling the Type Extension Problem, and they are such an elegant IDEA!!  But the application is utterly wicked...
+Well actually...  The basics are all right.  There's just some other issues like calling "super", deeper bits of method-resolution and specificity decisions, and that kind of stuff.  And wrappers and before/after functions are just quite neat.
+Okay, so they work.
+
+Still SLOW THOUGH!  And that brings us RIGHT back to the efficiency problem.  See ~/my.src/lisp/clos-efficiency.lisp.  Simple tests show that method calls are 100-200 times SLOWER than function calls!
+Try comparing C to Objective-C sometime?  Ocaml is all static, so that's more or less the same efficiency.
+Hmm.  I believe it would be possible to hash the method signature somehow, reducing it to a predictable number.  The tricky part would be making it so, say, less specific signatures have lower numbers, which lets you compare.  I suspect that such an equation could be done; since we only have single inheritance, "how specific" something is can be determined by it's depth in the class tree.  So the equation might be something like:
+(+ (* (depth arg1) 1) (* (depth arg2) 1/2) (* (depth arg3) 1/4) ...)
+or some such thing.
+
+Ideally, one should be able to choose whether these things are static or dynamic...?  Function binding, I mean.
+Declare static functions that can't be extended or overloaded, but just take certain types of objects and operate on them.  That MIGHT work...  
+
+See, the thing is, methods can't cache like they can in Objective-C.  Each resolution HAS to be done.
+
+Options:
+*One, make methods static.  They'd still be fairly powerful and flexible, but basically you wouldn't be able to change the whole system by redefining things.  That can also lead to VERSIONING problems though.  I'm actually not too sure how this would behave...  Should look into it.  It might work though; MULTIPLE dispatch is what I'm after more than DYNAMIC dispatch.  However, it might also lead to code bloat with all these different versions of methods.  I'm not sure of all the consequences here.
+*Two, restrict methods to only decide upon one object.  Ditch multiple dispatch.  Work on an Objective-C/Dancer model.  This is flexible and proven, but also snaps the flexibility down by an order of magnitude or so.
+*Three, optimize the hell out of method-calls.  This may include some compile-time decision making and type-checking, which is fine, but hard and slightly messy.  Lisp-y or GOO-y type decls, since this would make inferred types very very impossible.  Darn.  OPTIONAL type decls, though!
+*Four, have seperate functions and methods.  This makes things less unified, but probably gives more flexibility for optimization.  'Sides, how many people actually need to redefine + on a daily basis?  Well.... a few.
+
+The problem is, multiple-dispatch objects make a really, really good way of having ONE INTERFACE for a data type and possibly spreading it over MANY IMPLEMENTATIONS, and doing it TRANSPARENTLY.  That is definately a Good Thing.  But then...  
+
+Static method-calls can be OVERRIDDEN by using a pointer-to-pointer handle like functions.  Also, a certain amount of type-inference can be done at compile-time, especially if you specify return types.  A bit of a hack, but it can be done.  You can make this type-inference completely optional, which is nice and Lispy: implement, then add type info to speed it up.  However, returning untyped data structures is still a bit of trouble, but I think this can be overcome okay.
+Also, this does NOT help when a general method is overridden by a more specific one, which is the problem.
+This is all rather complex though...  Hmm.  I think it's feasable, but I'd prefer something more straightforward.
+
+Lisp's class prescedence lists are actually pretty simple.  A class preceeds it's direct superclass, and a direct superclass preceeds all classes to the right of it in the method ordering.  So it kinda cascades...
+Okay, so it's not that simple, but still.
+
+Using methods with no type specifiers is just like using functions.  But it could be accidentally overridden by something more specific.
+Using methods with only one type specifier gets you Objective-C, pretty much.  I should keep this in mind.
+
+Ha!!  Ah, HAHAHAHA!!!  Dude.  Use macros and closures.  With just those you can build an Obj-C-ish OO system from scratch, fairly simply and efficiently too.  ^_^  The biggest problem would be eliminating code duplication, and that's a compiler issue rather than a programming issue.
+
+Rogue has at least one REALLY GOOD syntax rule:
+x^ x,null -> x ;;
+x^ null,x -> x ;;
+null,null -> null ;;
+Along with treating null as false, this makes list composition and recursion really really easy.  For Lisp you can cdr down lists and decompose them, stopping at nil; this allows the exact opposite behavior, building lists.
+Lisp's (append) has the same behavior, but probably involves a line-painter algorithm if you use it a lot.
+
+(register-exit-function foo)
+
+Bigloo has a good system interface.  Check it out.
+The regexps are also worth looking into, even if scsh is probably better.  And check out the pattern matching.
+
+Check out: GOO and Ocaml compilers.
+Bigloo!
+
+
+
+
+OBJC-LIKE LANGUAGE
+
+Objective C without the C in it, heh.
+
+
+
+
+MULTIPLE RETURN POINTS
+
+$ MULTIPLE RETURN POINTS!
+$ The idea of this is basically to magically choose which function
+$ to return to depending on an integer return value, reading it as
+$ an address offset from the normal return value's place on the stack.
+$ Thanx to eks and indigo from UUU for the idea.
+$
+$ Issues: Syntax, of course.  Semantics also: are the funcs defined
+$ by the caller or callee?  Is there some way to hook or override the
+$ callee's functions?  
+$ The easy way would be to just wrap them in a case statement, but 
+$ that's inefficient; much better to just $ use it as offsets to 
+$ a pointer array.
+$ It's really cool, since it basically eliminates the need for 
+$ explicit error-checks or even catching exceptions...
+$ It's basically a way to make explicit error-recovery INSIDE
+$ the function instead of outside it...
+$ These are DEFAULT handlers though, and can be overridden!
+
+   call fopen
+   dd all_is_fine
+   dd invalid_file
+   dd insufficient_rights
+   dd unknown_error
+
+openfile( s string, mode string ) file:
+   f File
+   retval int <- callC( "fopen", f, s, mode )
+   retcase retval:
+      all_is_fine
+      invalid_file
+      insufficient_rights
+      unknown_error
+
+$ *) Explicitly catch the return value with an exception-like
+$ statement, basically syntactic sugar for if-else.
+$ But what if you want to return a REAL value?
+try fopen( "foo", "r" ) with:
+   0 -> error0()
+   1 -> error1()
+   2 -> error2()
+   ...
+
+$ *) Return two values per function: a real value and an
+$ error value.  Error value is explicitly checked, like above.
+$ Takes some time though...
+
+$ *) Like above, but the error functions can be implicitly
+$ defined within the function, and only need to be overridden
+$ explicitly?  Hrm...
+
+$ BASICALLY, this is just a bastardized exception-handling system,
+$ where only the calling function handles the exception instead of
+$ it being passed down the stack.  The asm-side of it is just
+$ a bit of cleverness and speed, not actual functionality.
+
+Well grumble.  Am I misunderstanding it?
+
+Okay, how 'bout this.  The idea is basically that instead of having to explicitly check for an error, when the error happens you return to the appropriate handler-function automatically.  But you have to have some way of specifying what the appropriate handler IS, which effectively means you still do explicit checking of the return value (or whatever value).
+Okay, so it's basically local, fast exception handling.  The main issue is that errors don't propegate up the stack.
+Well!  They could, actually, if the register they resided in wasn't touched by function calls/rets.  So a try statement would just check the exception register after a function call and, if anything is in it, call the appropriate handler.  The PROBLEM with that is that if the exception is from further up the stack than just the given function call, then an unknown amount of stuff has been executed AFTER the failure.  So that's not good.
+
+Also no unwind-protect.
+
+
+-----
+The Calling Convention Used in Unununium
+
+In the beginning, Unununium developers examined the traditional error handling scheme, and decided it was bad. The convention of using a return value of a function as an indication of error in theory would allow proper error handling. However, it has many problems.
+
+Firstly, it requires that some return values be reserved to indicate an error, while others indicate success. Because many functions must be able to return many values, often the value indicating error is restricted to one. This gives rise to the global errno. While it's generally good enough, errno restricts all the errors that can be reported to a constant set.
+
+Also, it requires that each call to a function that might fail be wrapped within a conditional, or the error will pass unnoticed, until the program mysteriously fails. Not only is this inconvenient for the programmer, it is a hindrance to performance as well. Consider the following pseudocode:
+
+1:  initialized := 0
+2:
+3:  procedure initialize:
+4:    initialized := 1
+5:
+6:  procedure do_stuff:
+7:    if initialized = 0 return error
+8:    ...do stuff...
+9:    return success
+10:
+11: procedure main:
+12:   if do_stuff() = error:
+13:   print "couldn't do stuff!"
+    
+
+Note the conditionals on lines 7 and 12. Wouldn't it be better if at line 7, we went directly to the error handler, rather than encode the error in the return value, return, and then decode it again? Imagine if do_stuff had multiple ways to fail. The main procedure would then need more conditionals to determine just what went wrong, even though the exact cause was known just a few instructions prior!
+
+The usual response to these problems is an exception handling mechanism. However, as the name implies, exceptions are generally not intended to be used except when something unexpected happens. Consequently, there is usually a high degree of overhead for raising an exception. However, why make this distinction? Consider realloc(). This procedure could simply resize the memory block without moving it, or it may need to allocate a new block.
+
+Generally stated, any procedure may have a number of outcomes. How these are handled, as errors, or otherwise, is dependent on the application. Why should the calling convention pose unnecessary restrictions?
+
+This problem has been solved in Unununium by defining for each procedure a table of return locations. This table follows immediately the call instruction, so that the return address is actually a pointer to the return table. Then, the called procedure pops the address rather than executing retn, and jumps to the location corresponding to the outcome. We benchmarked this on Intel and AMD CPUs, and found that it's actually faster than the traditional model.
+
+The return points for each procedure are documented with our inline documentation. At build time this is parsed to generate a count of return points for each procedure. The macros ecall and return defined in uuu/include/macros.inc can then be used to call and return using this calling convention.
+-----

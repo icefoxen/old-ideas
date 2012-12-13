@@ -1,0 +1,8 @@
+What it sounds like... a program that lets you put together, file, index,
+organize, cross-reference, and otherwise fool around with a bunch of
+note-cards-like objects.  They can have text, images, reference to other
+cards, anything.
+
+A little like webpages, a little like Hypercard, a little like Powerpoint, a
+little like a word-processor.
+It's a tool for organizing IDEAS.

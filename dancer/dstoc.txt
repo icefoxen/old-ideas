@@ -1,0 +1,130 @@
+DANCER SPECIFICATION
+Last changed: 9/9/2003
+
+Table of Contents:
+
+0) Introduction
+ 0.1) Aknowledgements
+ 0.2) Document conventions
+ 0.3) Language conventions
+ 0.4) Problem Domain
+
+1) Lexical Structure
+ 1.1) Identifiers
+ 1.2) Whitespace
+ 1.3) Comments
+ 1.4) Valid Symbols
+ 1.5) Special Symbols
+ 1.6) Numbers
+ 1.7) Variables (noCaps)
+ 1.8) Classes/Globals (YesCaps *andStars?*)
+ 1.9) Constants (ALLCAPS)
+ 1.10) Predicates (?)
+ 1.11) Destructive (!)
+ 1.12) Characters
+ 1.13) Strings
+ 1.14) Lists
+ 1.15) Literal symbols
+
+
+2) Syntactic Structure
+ 2.1) Expressions
+  2.1.1) Methods
+  2.1.2) Nested Methods
+  2.1.3) Sequenced Methods and Seperators
+ 2.2) Blocks
+ 2.3) Directives
+  2.3.1) method
+  2.3.2) method+
+  2.3.3) class
+  2.3.4) mixin
+  2.3.5) use
+  2.3.6) import
+  2.3.7) export
+  2.3.8) hide
+  2.3.9) global
+  2.3.10) constant
+  2.3.11) trace
+ 2.4) Arg Strings (keywords, rest=[], _'s, etc)
+ 2.5) Program form (main, packages, imports, etc)
+ 2.6) Assignment (:=, :=:)
+
+3) Type Overview
+ 3.1) Object
+ 3.2) Number
+ 3.3) Integer
+ 3.4) Float
+ 3.5) Ratio
+ 3.6) Complex
+ 3.7) Collections
+ 3.8) Sequences
+ 3.9) Lists
+ 3.10) Arrays
+ 3.11) Strings
+ 3.12) Dictionaries
+ 3.13) Booleans
+ 3.14) Streams
+ 3.15) Chars
+ 3.16) Blocks
+ 3.17) Exceptions
+
+4) Program Control
+ 4.1) Control Structures as Methods
+  4.1.1) times Int
+  4.1.2) from Int
+  4.1.3) downfrom Int
+  4.1.4) each Collection
+  4.1.5) map/map! Sequence
+  4.1.6) range List
+  4.1.7) while Boolean
+  4.1.8) until Boolean
+  4.1.9) if Boolean
+  4.1.10) unless Boolean
+
+5) Object System
+ 5.1) Data Access
+ 5.2) Inheritance
+ 5.3) self and super (can ye do s := self? yesh.)
+ 5.4) Mixins
+ 5.5) Method Searching / Late Binding
+
+6) Package System
+ 6.1) Issues/Problem
+ 6.2) use/import
+ 6.3) Access Semantics (package::value)
+ 6.4) Access Control (export/hide)
+ 6.5) Multi-file Packages
+ 6.6) Dependancies & Late Binding --debugging tester?
+ 6.7) Possible Heirarchical System
+ 6.8) Linker Issues
+
+7) Basic data and constants
+ 7.1) TRUE and FALSE
+ 7.2) Nil
+ 7.3) Symbols
+
+8) Exceptions
+
+9) Standard Library
+
+
+
+10) Other useful libraries:
+   SMTP
+   HTTP
+   FTP
+   POP/IMAP
+   HTML/XML
+   base64/uuencode
+   compression
+   graphics --SDL/opengl, wxWindows/tk
+   md5
+   unix
+
+
+11) Compilation Model
+ 11.1) symbol table
+ 11.2) var frame
+ 11.3) arg stack/array
+
+Other useful ideas

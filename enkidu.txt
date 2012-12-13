@@ -1,0 +1,16 @@
+ENKIDU (because it sounds cool)
+
+A compiler-time dependancy generator for OCaml (and other languages).
+
+I hate all this compile-time library choosing.  I hate trying to figure out which are the right libraries to link into my program.  It's probably because I was raised and taught on an unholy mixture of Java, Python and Lisp, all of which are interperated languages that are kind enough to let you define which libraries to load inside the file.  And there's really no reason you can't do the same with compiled languages, without futzing around with irritating Makefiles and such.  So, I wrote a Python script to build the junk for me.
+
+Hmm...  So.  It parses the .ml file for directives, in the form of:
+%%import filename
+which will probably be in a comment.  For each one it finds, it checks /usr/local/lib/ocaml/, ./, and ./*, in that order, for filename.cmo, filename.cma, and filename.ml in that order.  It then builds the command to compile them from the directives, and does it.
+
+What if it finds a compiled module though?  It won't contain any directives on what other modules it needs.  And it CAN be compiled with dangling references; it just can't be linked.  Shite.  So then you either have to list the entire dependancy tree in the root file, or you have to use an external file to tell it how to build the thing.  In which case I've re-invented make.
+
+So I can either ask them to change the language to include such a thing in the bytecode definition, or... I can give up and just use make.  Well dammit.  That sucks.
+
+
+Oberon (the OS) is kinda cool 'cause it does this for you.  Instead of linking object files together, you have messes of small modular libraries, that are all linked dynamically.

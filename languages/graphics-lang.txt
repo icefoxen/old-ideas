@@ -1,0 +1,7 @@
+
+It would be nice if we had some universal language for drawing/representing
+graphics, perhaps something like PS...  Basically, it'd be a manipulation
+language and a specification language in one...
+Okay, okay, all I'm really after is a simple way to draw a UI on a remote
+system, hopefully something simple and lightweight but flexible and consistant
+and extensible.  NOT X!!!

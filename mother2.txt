@@ -1,0 +1,32 @@
+MOTHER
+
+A build tool and library management system.  Like findlib/ocamlfind, except
+using plugins for different languages.
+
+...now, there are two parts... library indexing, which is basically ocamlfind,
+and source management, which is more like make --automatic building according
+to various rules.  It does not generate the configuration for a certain
+platform, but retains it...  It knows all the stuff about the system, so you
+don't have to use a configure script or makefile hacking to find out the
+needed info.
+
+Library indexing is just putting all the libraries somewhere, keeping track of
+them, and feeding them to the linker appropriately.  It also hangs on to
+metadata such as name, version, dependancies, source location, license, and so
+on.
+
+Source management is keeping track of all the source files in a library,
+keeping track of what other libraries and so on are used, keeping track of
+build order and such, keeping track of system information such as processor
+and graphics and compiler versions and so on, then deciding how the thing
+should be compiled.
+
+Maybe I should just call this Keeptracker, instead...  ^_~
+
+
+Should probably write it in Python or MAYBE Lisp.  With Lisp we have the
+system interface to worry about though, which is annoying.
+
+Design the system, figure out where it keeps everything and how it organizes
+things first.  PLUGINS, simple universally-applicable data that can be input
+and output in consistant ways.

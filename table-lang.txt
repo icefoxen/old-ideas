@@ -1,0 +1,19 @@
+Table-based programming language
+
+-Like Excel, but awesome.
+-Cells can be bounded, typed, etc
+-Interactions can be visualized/sorted in different ways
+-Cells are named?  Indexed?  Both...
+-Cells can contain programs, parameterized functions, references to other
+cells
+-Cells can be treated as sequences, graphs... inc/dec operators
+-Programs can be composed from programs in other cells
+-Tables can manipulate each other; ie funcs and var names bound by looking
+them up in a certain system table
+-Certain cells can have restricted access/permissions?  To, ie, create
+abstractions or catch bounds-overflows
+-Table references kept in a table!
+-Tables can be created or destroyed at runtime...?
+-How does abstraction and information hiding work...?  Is there any?
+
+This could actually be really fun to work with...

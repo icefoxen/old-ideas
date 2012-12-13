@@ -1,0 +1,110 @@
+Like Better Than Life?  Heh.
+
+Call it Sophia
+
+Hmmm... say something that manipulates arrays.  Arrays know their length, and
+have cells of a fixed size --one word.  For simplicity's sake, let's assume
+that's 32 bits.
+
+It's a low-level language.  Pointers/addresses, raw numbers, floats.  Multiple
+data types ARE acceptable, more or less...
+
+No GC, dude.  Low-level.
+
+Something with a brutally simple runtime and compiler.
+
+So, an expression takes an array and produces another array (arrays of length
+1 may be optimized, maybe).
+
+Hmm, with an array, functions can be more arrays.  Arrays of pointers to
+arrays, even.  Hmmmmmm.
+
+Maybe the "working state" is another array?  Maybe.  Length might be a
+problem.  A stack that is then passed as an array, though...  Kinda like the
+Forth stack, but with (a bit) more checking and such.
+
+So, say you have The Stack, The Call Stack, and Memory.
+
+We would need a way to define and initialize arbitrary arrays, even at
+run-time.  This would let us kinda have lambdas, 
+
+If we can give (local) names to objects in an array, we can have kinda an
+associative array/dictionary.  In other words, local variables.
+
+Lambdas...
+
+Modules...
+
+
+Experimental theory-wanking:
+1 x.     -> x[1]
+
+2 1 x ,  -> x[1] := 2
+
+1 2 3 f  -> f( 1, 2, 3 ); f is evaluated immediately
+
+f 1 2 3  -> f( 1, 2, 3 ); f waits until it recieves X arguments, then goes off
+# Nesting could be a problem here, dammit.  Evaluation is eager, or lazy?
+
+
+{ 1 2 3 } { arg1 + arg2 + arg3 } eval
+
+def map arg = 
+   fun = arg1
+   arr = arg2
+   { arr1 } fun eval
+   { ...? fun map } eval
+end
+
+
+...blah.  KISS!
+
+Okay, so a procedure is an array of references to other procedures.  A
+procedure is executed by pushing a pointer to the argument array on the top of
+the argument stack, and just evaluating each of the procedures in turn.
+Call/return semantics are kinda the same as C then, it seems.
+
+If the argument stack is an array, then entering something automatically
+pushes it.  Returning would pop everything off it; values could be left behind
+in it, maybe.
+
+1 2 +    ; arg1 = 1, arg2 = 2, call + and pass it the argument array.  + would
+then leave 3 in arg1, and set the length of the argument array to 1
+
+1 2 + 3 + ; This is forth, isn't it.  It's just array-based and keeps track of
+the number of args...  Kinda.  Gah.
+
+You could also make an array and pass a reference to it in the argument array
+
+
+
+OKAY.  The REAL idea here is the procedure-as-array-of-procedure-pointers idea.
+That's the heart.  Remember that.  Screw syntax and such.
+
+So, when called, a procedure takes an array of arguments, and returns an array
+of values.
+
+It is possible that every function works this way, down to basic addition.
+
+We can use a stack to pass these arrays, and possibly return ones as well.
+This'll work.
+
+Is stack control implicit or explicit then?  How do temporaries and globals
+work?  Well, globals and 
+
+It would be NICE to have a way to optimize away array bounds checking, and
+make arrays of length 1 simply be numbers/pointers.  Optimizing pairs would
+also be nice, for 64 bit numbers and complex numbers.  However, these are not
+strictly necessary.  A Sufficiently Smart Compiler may be able to do a good
+chunk of it.
+
+f@{ 1 2 3 4 5 }
+
+
+
+
+sumarray would be:
+arg {  } foreach
+
+Syntax of eval:
+{ array of words } eval

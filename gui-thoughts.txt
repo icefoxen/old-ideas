@@ -1,0 +1,159 @@
+
+Issue in GUI design: do objects know what can be done with them, or do
+programs know what kind of objects they can act on?  IE:
+*click on a file and say "open"; you open it with a program, don't care what
+program.
+vs
+*open a program, then do file>open and find the file.
+
+
+Exposing all objects a la Smalltalk or Self (or NewOS)
+Hmmmm.... then each object could know which other object should be used to
+display/edit it, and could customize said editor however it wants...
+
+ZUI, overlapping windows, non-overlapping windows (Oberon), method of command
+input (command-line? freeform a la Oberon?), hyperbolic interface,
+
+Graphical commands are shortcuts to text commands, text commands do things.
+There are many ways to invoke/shortcut text commands; menus, key-combinations,
+mouse-gestures, buttons...
+
+Pie-menus
+
+
+It's said there are four basic types of interaction styles:
+Menu selection  (configuration stuff)
+Form fill-in  (dialog boxes)
+Command language (shell, programming)
+Direct manipulation (typing, drawing, games)
+
+So... what does what best?  How do these styles interact with each other?  How
+can one be used to make another more effective?
+
+
+ZUI's are neat, but there's a few problems I can see...
+1) Hard to script
+2) Hard to do operations on a specified (regexp for example) group of objects
+3) Might be easy to get lost
+4) Cross-locality is hard; focusses on one thing at a time, not necessarily
+well.  Smalltalk-ish dock could help, or atomic zooming rather than absolutely
+scaled (or would that hurt?).  
+
+
+You should be able to script everything, and you should be able to do
+everything as script-shortcuts, and you should be able to look at these
+shortcuts and see what the scripts are and do.
+
+
+Visualize a menu or something else with scroll-bars... but instead of linear
+with the scroll bars controlling the scope of the window, it's drum-shaped,
+with the top and bottom edges curving "back"; the scroll bars "rotate the
+drum" to bring a new area into focus.
+
+
+Menu bars are slow, inaccurate, and annoying.
+The PURPOSE of menu bars is to expose all the possible operations of a
+program.
+This can be done other ways, such as command-line interfaces and scripting
+languages.
+The advantage of menu bars is that they theoretically don't need you to learn
+a whole new abstract text interface, you just need to remember the LOCATIONS
+of things.  Humans are good with locations.
+However, a text-interface is faster to those who know what they're doing.
+Figure out some way to combine them.  Perhaps a little built-in command
+interpreter that can list all it's commands sorta like a menu bar.  So if you
+don't know what you want, you look through the menu until you find it.  If you
+do, you just type it in.  That could work...
+Sorta like Excel's equations.  You can either type it right into the equation
+bar, or you can use the wizard to build it.
+
+(Resource is something that /outputs data/.  It may also take data as an
+input, perhaps?)
+Okay, hmm.  Let's get rid of the desktop metaphor and start from scratch.
+Say we simply start with a resource-manager.  Resources can be anything;
+files, devices, ramdisks, categories, search queries, function calls into a
+program, whatever.  It doesn't matter right now.  They're organized in
+categories and/or a tree heirarchy.  We have a program that lets you browse
+and manipulate these resources.  Everything stems off this program, and hence
+off the resource system.  The GUI "is" this program, the same way a
+Windows/Mac GUI "is" the desktop (though less with the mac than it was once).
+Okay, so then what happens when you want to, say, edit a file?  Well, the
+resource-manager is just a program (we want to be able to have more than
+one instance of it open at a time, logically at least), so however we handle
+it we have to handle all the other programs.  So, we split the screen and open
+another program beside/above it or wherever.  That sounds workable.
+However, to make a tiled gui as/more convenient as a windowed gui, we have to
+be able to manipulate tiles with the same speed and flexibility and ease that
+we can windows.  Thats hard; windows don't impinge upon each other, and can
+share screen real-estate, so...  Hmm.  A bunch of keyboard shortcuts to do
+various operations to tiles can speed things up a lot, but you'd still end up
+with various tiles getting "cramped out".  Multiple screens/desktops of course
+can help this problem, but still.  When I'm editing code, I want two editor
+windows 80 columns wide, not two that are 74 columns wide or one that's 80 and
+another that's 68.  Maybe we can make it so when you focus on a program, it
+sorta springs back to it's normal size.  That could help a lot, or it could be
+utterly chaotic.  Maybe instead you have an option to "blow up" a tile to
+it's natural size, compressing all the others around it temporarily.
+So then why not have all the programs just a list on the "desktop", and you
+can blow up whichever ones you want?  Well, they'd cover the desktop.  Okay,
+move 'em off the desktop onto a sidebar.  I've just invented a dock/program
+bar, yay.
+Touching on the issue of applet-like programs that do things like display time
+and date, it's simple to just make a "container" program that takes applets as
+plugins.  No problem there.
+Okay, start from this resource browser again.  If programs can be resources,
+and you can activate a program's functions as easily as you read and write
+files, then why not just manipulate every program through that interface?
+Well, you certainly can, but there are programs like games, music players,
+editors and so on that make that interface really really suck.
+All right.  Games are a special case.  Editors are just another program, hmm.
+Bah, all programs will have to interface with the user in ways we can not and
+should not try to anticipate.  Abandon that line of thought.
+What we ARE thinking about is this: how are programs presented to the user,
+and how they share screen-space.  I want to think of some way of doing this
+other than a desktop.
+Well, everything is presented as a resource.  So, program displays are handled
+as resources.  You organize them via the resource manager, at least at the
+lowest level...  That doesn't help us decide how to actually display and
+interact with them on the screen though.
+All right, let's look at it this way then.  Screen-space is a finite resource.
+A program needs a certain minimum amount of it, depending on the program, to
+be usable.  However, it doesn't always need it.  So we need a way for programs
+to share this space, where each can optionally have as much as it needs at the
+expense of other programs that don't need as much...
+Hmm, I'd say this sounds like windows more than tiles, except tiles also fit
+the bill.  I sorta like the idea that tiles can be compressed however you
+want, but temporarily pop to their full size when you're using them.  That
+could be very handy, especially when combined with a simple set of operations
+to manipulate where they sit.  Commands would need to be: shift (swap your
+place with an adjacent tile), stretch (get bigger/smaller, taking/giving space
+to the entire screen), impinge (get bigger/smaller, taking/giving space to
+adjacent tiles), scoot (move past an adjacent tile).  As well as pop-up,
+pop-down, maximize and minimize.  I'd have to make a mockup and learn how to
+use it well, but it sounds good, or at least hopeful.
+Hmm, with the pop-up, it might be useful to create the illusion that it
+doesn't "shove other tiles out of the way", but "pops up above them".  In
+other words, the popped-up tile could overlap other tiles.  This may or may
+not be a good thing.
+You should be able to "lock" or "pin" tiles, so they exist on all
+"desktops"/screens.
+
+
+Color coding is a good thing, but there are colorblind people out there, so
+pattern-coding would also be important.
+
+
+There should be a program-bar or something of analogous function.  For some
+reason I see it being a simple, pixel-wide strip along the left side of the
+screen, and as you mouse-over it it automatically highlights and pops-up the
+corrisponding program, perhaps with a line drawn to it as well.  The problem
+here is you can't find a program's "tab" just by eyeballing it.  Color coding
+could be useful here, but kinda confusing.  Having it be a pop-up or fold-out
+bar may be handy.  A similar bar could be used for switching desktops.
+
+
+Starting programs is simple.  The resource manager provides ways to create new
+resources, including processes.  You can also create scripts that will start a
+process with a given program automatically.  You can write a program that will
+hold all these commonly-used scripts and so on.  There are a multitude of
+ways.  However, the commandline/menu combination would probably be good here.

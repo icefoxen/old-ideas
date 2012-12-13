@@ -1,0 +1,47 @@
+Gah, don't I have some form of notes on this already???
+
+Okay.  So, Dancer ish basically a dialect of Lisp.
+It has to be FAST, it has to have an INTERFACE with D, COMPILATION would be nice, and theren have to be things about it that are DYNAMIC.
+
+Objective-C would work quite nicely as a basis, actually...  o_O
+
+Hmm.
+
+Good, dynamic languages:
+Lisp, Smalltalk, Objective C.
+
+ObjC ish a good place to start, because it's really SIMPLE.
+Lisp ish a good place to start, because it's PROVEN.
+
+
+So, what do I want:
+Functions.
+Static closures.
+Dynamic dispatch of functions.
+Dynamic (not necessarily multiple!) dispatch of methods.
+Weakly typed, but with strong capabilities for data structures.
+Easy integration of objects with type system.
+
+Possibilities:
+Scheme-ish functions
+CLOS-ish multimethods
+Haskell-ish typeclasses
+ObjC-ish more traditionally OO classes.
+
+Okay.  Y'see, ObjC ish fast because the implementation of a method depends soley on ONE object.  It's very simple to find and cache the appropriate method.  
+
+Typeclasses might be good...  But they're dynamic and might be tricky to write...
+
+The Right Thing to do for speed vs. flexibility is to incorperate facilities to do BOTH, as interchangably as possible.
+
+Sooo...  Fast, specifically-typed functions vs. slow, generally-typed OO methods?
+Hmm.  ObjC shows that's not necessary.
+Well.  One proposal goes thus: we have functions, which take any kind of data.  They can be made more specific by specifying the type of one of their args, which makes them methods.  They can take args of that type or a subtype.
+That's a somewhat ad-hoc and informal way of going about it though.  So, typeclasses...
+
+You declare a typeclass, and the functions associated with it.  You then declare a dataclass, which implements a typeclass and those functions.  So that works okay, but the RESOLUTION of these things is still an issue.
+So a function is called.  The runtime checks the type of it's arguments, and calls the function of the appropriate implementation.  A la ObjC, really.
+
+So, each object has a type tag or pointer, which points to a structure that has information on which typeclasses that object implements...  Hrmph, grar.
+
+Grar, I'm making this too complex.

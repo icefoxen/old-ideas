@@ -1,0 +1,9 @@
+Just an idea.  Make a string-processing command language.  Think Awk, Sed,
+Perl, regexps, Icon...
+
+The problem is, it can be simple like Sed or Awk, and limitedly useful, or it
+can be complex like Perl and Icon, and confusing as hell.
+
+
+In general though, this is a field that already has a lot of useful tools, so
+it's not a huge priority.  Just something to ponder now and then.

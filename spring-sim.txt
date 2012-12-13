@@ -1,0 +1,5 @@
+Make a simply spring dynamics simulation, because it'll be COOL.
+
+Also have sources of motion, and dampers/dashpots.
+Look up "Kelvin material", "Maxwell material" "Kelvin-Voigt material" or just
+"Voigt material" for a bit of inspiration

@@ -1,0 +1,306 @@
+Nuweb:
+
+So.  The thing is, URL's have a lot of data in them that talk about the
+organization of the resource in question, but nothing about it's actual
+purpose.
+
+What if you have a way to view any page/group of pages, whether they're on the
+same page or not, as a tree of topics?
+
+What about a set of topics instead of a tree?
+
+What if you can describe the topics of the destination page in every
+hyperlink?  What would the implications of that be?
+
+It would cause a lot of chaotic and ad-hoc categorization, for one, with all
+the misspellngs under the sun...  And omissions.
+
+What if the topics of the destination page can be inferred through various
+links, and the browser tells the destination page not only what link brought
+it here, but what topics it had it listed as.
+But how would the destination page USE this information?  Do we care if they
+do or don't, as long as it's there?
+It'd be nice if the dest page could get a list of all links that lead to it,
+though.  The only way to do that'd be basically HTTP-referrer though.
+
+The client should be able to analyze this data in various ways and analyze
+it for various results (present graphs and indices, etc).
+
+Maybe you can mark certain inline items to be indexed for various topics? 
+Definitions, etc.
+
+Hmm... the basic idea here seems to be to tell a page what it's readers
+categorize it as.  Hmm...
+The page itself doesn't need to know, but some category authority does?
+
+One may need various high-level connective services.  This can be done:
+examples Google, webspiders, and DNS.  They should be as distributed as
+possible though, by preference.
+That brings the problem of redundancy vs. uniformity...
+
+What metaphor do we have?  The WWW is just a bunch of single pages that have
+links arbitrarily to anywhere else, and are arbitrarily organized by the
+creator and often grouped by location/host.
+This is actually surprisingly powerful...  It is, however, as has been noted,
+widely disorganized, and hard to make organized.  It needs very powerful
+search engines and lots of bookmarks to be useful.
+
+It is powerful because it is simple, universal, and lets people build whatever
+they want on top of it.  Hmmm.
+
+Okay.  The metaphor is a bunch of single pages, possibly bound into logical
+groups, each of which (page or group) is part of a series of big sets, in the
+mathematical sense.  These may or may not be sorted categorically...
+
+Groups... THAT is an idea worth thinking of.  Hmm, think of, say, MUCK
+environment rooms...  Or OO inheritance trees.  Question is, do ye have it as
+a strict tree with each page having one parent, or do ye have it a set, where
+each page can belong to more than one set?  One is a superset of the other,
+so...
+So what does each group page do?  Enumerate other pages in the group, provide
+a place to put include fragments and programs and such (!), generally index
+the group, 
+It has to be a two-way link.  Each page has to know what groups it's in, and
+each group page has to know what pages are in the group.  That's kinda bloody
+annoying.
+Maybe just the group page knows what pages are in it?  No...  Then seeing how
+groups are related is bloody hard.  Well no, not if groups can contain other
+groups...  But a group can't easily find out what groups contains it.  Hrm.
+
+Is there some way to view a big chunk of sets WITHOUT a huge spidering-service
+like Google?  Maybe some P2P network could do it...  Yeah.  You download the
+spider program, it watches what you surf, and combines it with data from a
+bunch of other spiders to show you a picture of the setspace.  Distributed
+database.  It can have various levels of detail, intrusiveness, and
+net-suck-ness.
+Ooo, what would be cool is this: You have a set-browser, that displays big
+Venn-diagrams of the webspace in general, which can be refined through
+logical rules and searches.  It shows each site as bubble, it's size depending
+on, google-like, how many sites link to it and/or how many hits it gets.
+Maybe a further heuteristic would be to make the size of the bubble depend on
+the size of the bubbles linking to it...
+
+Bookmarks...  can we do anything with that?  Automatic categorization and
+xref's, for instance...
+
+Ooo!  What would make this USABLE is a bridge to HTML and HTTP, so you can
+surf both webs at once...  Of course!  And MAYBE a bridge back, but that'd be
+harder.
+
+...semantic links?  Those are prolog-like references that define a
+relationship or information about data.  <BookTitle isbn="0812511816"/>
+
+All the protocol really needs is a way to move arbitrary data and metadata
+back and forth between the client and the host.  Everything else is put on top
+of it in one way or another.  Keep-alive?  Forwarding?  Reloading?  Proxying?
+HTTP bridging?
+Maybe a way to get some useful information about the page without fetching it;
+size, content-type, etc...
+Stick it on, say, port 3000 to start with.
+Inline compression!  OPTIONAL inline compression, with various plug-in-able
+handlers and a client-side directive to turn it off.
+
+Hmmm...  What if each page has all the "host names" resolved into an IP index
+statically?  No, that's horrid.  The IP can change, after all.  But DNS is
+fragile and kinda in the hands of the big money-grubbers...
+How about bands of index servers?  Each handling a certain topic or set of
+topics?  That could work...  Levels of authority, maybe, so there's one
+authorative server but others that help, getting changes from the authorative
+server...
+
+
+---Wikipedia
+A semantic network is often used as a form of knowledge representation. It is
+a directed graph consisting of vertices which represent concepts and edges
+which represent semantic relations between the concepts.
+Semantic networks are a common type of machine-readable dictionary.
+Important semantic relations:
+    * Meronymy (A is part of B)
+    * Holonymy (B has A as a part of itself) 
+    * Hyponymy (or troponymy) (A is subordinate of B; A is kind of B)
+    * Hypernymy (A is superordinate of B) 
+    * Synonymy (A denotes the same as B)
+    * Antonymy (A denotes the opposite of B)
+---
+Dublin core:
+   1. Title
+   2. Creator
+   3. Subject
+   4. Description
+   5. Publisher
+   6. Contributor
+   7. Date
+   8. Type
+   9. Format
+  10. Identifier
+  11. Source
+  12. Language
+  13. Relation
+  14. Coverage
+  15. Rights
+  16. Audience
+There are two ways of using the elements: With or without extensions. Using
+them without extensions means using "DC simple". Using them with extensions
+means using "DC qualified". The extensions are called refinements or
+qualifiers.
+
+For instance, "created", "valid", "issued" and "modified" are the recommended
+refinements of the "date" element. Thus, dc.date.created would be the name for
+the element for the date of creation of a document in DC qualified.
+
+Several elements have schemes or a ready made controlled vocabulary. For
+instance, the "Type" element has 12 recommended terms: Collection, dataset,
+event, image, interactive resource, service, software, sound, text, physical
+object, still image, moving image.
+---
+
+Maybe some way of detecting broken links?  Like, the client (or server) goes
+through and tests all links periodically to see if they're sound...  That's
+more an application-level thing though.
+
+...dammit, I've forgotten half the original inspiration for this.  The
+original inspiration is a gopher-like system, where the structure of the
+content is much stricter and more uniform than the WWW.  However, strict and
+uniform == fascist, not powerful.
+How do I REALLY want this to behave???
+
+
+
+
+Minimal Invariants:
+Each resource needs at least one way to refer to it that always works.
+Each resource needs to be able to refer to another resource, essentially
+"by name".
+There needs to be some way of turning this name into an IP address.
+
+Should be able to run on top of existing network architecture: TCP/IP and
+(unfortunately) DNS.
+
+
+
+Language: 
+What if the client-side markup language has procedural features?  But it's
+just markup...  We want procedural features, we have something to /generate/
+the markup.
+Okay, so we'll need three languages really:
+*Structural markup, describes the form of the page.  Structure language should
+be FLEXIBLE.  You should not need a "sidebar" tag to make a sidebar.  No
+limitations on nesting elements, no strict rules on layout, etc.  Variables,
+aliases and includes would be NICE, but may be too high-level.  See the
+scripting language for that...
+Meta-structures such as navigation bars, indices, headers and footers...  (HTML)
+*Visual markup, describes the layout of various forms, possibly in the form of
+interchangable templates and standard or semistandard schema of elements and
+visual layouts. 
+Should be able to specify absolute and relative positioning in combination
+with each other, nested objects, minimum and maximum sizes by percent and
+absolute measurement, overlap and non-overlap...  
+Elements as boxes laid out in a tree...  Maybe layout defined/elements
+recognized by the position in that tree?
+Various style sheets for different platforms (plain text, print, diff.
+browsers, etc).  User-agents, that's the word I'm looking for.
+(CSS)
+*Client-side scripting language to manipulate various data and should have
+access to the DOM of both markups.  This should also let the browser be
+manipulated in certain ways.  It may have procedures and/or macros for
+procedurally generating various commonly-used code...  It could be possible to
+make it so you write the various markups completely in this language, which is
+interpreted by the client.  Inefficient and possibly insecure, though.  But
+it'd be nice if you could inline it like PHP...  That'd be VERY nice actually.
+(JS (and PHP))
+
+
+It should be possible and easy(ish) to create dynamic gateways to various
+services through pages, a la AIM Express.
+It'd be nice if this could be a generalized document format as well, easily
+convertable into say PDF and such.  Though it's now more of a rich media
+format than a document format...
+Different (but related) syntaxes for each language may be a good idea, so one
+can instantly tell what one is looking at. 
+Each one should have some version decleration as part of it --with a default.  
+Verifier tools, a la HTMLTidy.
+Or perhaps a standard macro-package for writing it...
+Keep click-paths as a tree of prev/next links, allowing one to keep track of
+and search multiple paths?  That could be a killer app in waiting right
+there...
+
+
+Name?  Names...
+Rivalweb, Wayward, Pin, Opal, Feather, Mu, Lamplight...
+
+
+
+SOMETHING you might want to think about is this: the WWW is a very powerful
+model, and the disorganization is not really a problem.  We do not want to
+limit it, we want to make it MORE powerful!  We want an interchange format
+that conveys more information more cleanly than crude HTML or rude XML.  We
+want a protocol that knows how to do more than move a bag of bits from point A
+to point B, once.  We want a DOM that isn't rediculous, a client-side
+scripting language that isn't painful and kludgy, a server-side mechanism that
+makes client-side scripting mostly redundant.  
+
+...Perhaps what we need is a page-design language, with server-side and
+client-side segments, capable of defining display, interaction, all sorts of
+good stuff.  Think Hypercard or Logo, perhaps.  Then make it modular, let
+pages connect to each other under various models, and slap a network setup
+into it.  It should be easy to use it to make basic text and such, but
+programmatic facilities should be part of the same idea, not a seperate
+feature slapped on.
+But then it makes information analysis like search-engines harder, does it?
+Heh, seperation of form and content...
+
+Hm though.  Basically though, each page would be a program that is fetched
+from the server and run.  It would then manipulate it's environment (the
+browser) in some handy way, and possibly transfer information to/from to the
+server or other locations.
+The most obvious output of a program would be a page of text, graphics, and
+links to other programs.  Ways of forming these would, essentially, be
+libraries.  The bloat potential suddenly becomes immense, but I don't care.
+
+
+Hokay.  So the core elements of a page would be text, image, link,
+server-connection, and possibly some drawing primatives?
+
+What about categories and such?  Bidi links?  Still don't know how those should work.
+Hrm.  What about, instead of direct bidi links, each page just kinda remembers
+the pages that have linked to it.  That could be nifty, and more lightweight
+(for the humans involved).  THAT sounds good.  And flexible, since the extent
+to which each page cares about backlinks is entirely up to the owner of the
+page.  And pages can also tell the browser NOT to notify other pages that
+they've linked to it, quite easily.  THAT is power.
+Pages could also put in meta-tag-ish category listings to aid spidering.
+That could also be nice.  This metadata would be seperated from the page
+itself.  And links could also include category information, and pages could
+also remember what categories other pages have said they have.  Or just ignore
+'em.
+So each page would also consist of the refer-ees, refer-ers, and categories,
+apart from the actual content-program.
+
+What about category pages?  Those seem like a good idea, both as an indexing
+mechanism, and as a way of centralizing common programs or data...  Making
+things a scattering of modules instead of a scattering of loose pages probably
+ain't a bad idea.  And set-based stuff is nice.
+
+Hmm.  In terms of applicability, from what I have outlined so far, I don't
+think this'll beat the WWW as a data interchange system anytime soon.
+However, it WILL beat it as an online rich media system.  Good for games,
+technical things, presentations, etc.
+...oh my gods.  I've just re-created Flash, except it's UberHypertextFlash.
+
+...anyway.  Disregarding that rather disturbing turn.  Something one might
+want to think about is the fact that ANSI/VT100/Telnet applications on 9600
+baud out-perform web applications at 56 kbaud...  Not a push for text-only,
+just saying, think about how that works.
+
+Be permissible in what you accept and strict in what you emit.
+
+It should be simple and flexible to toss together!!  You shouldn't have to sit
+down and go through a huge design to play with things.
+
+Distinct server- and client-side code segments coupled together fairly well
+and flexibly?
+
+Fonts should be avaliable, plugin-like!
+
+Web sites should be API's!  Google maps, Yahoo finance, Mapquest, that kinda
+stuff!  Screw the SOAP/XML shit, too.

@@ -1,0 +1,24 @@
+Multiple returns
+Functions as values
+Can define and compile functions on the fly
+Minimal runtime
+REP loop
+
+Garbage collection
+
+
+Okay.
+Functions exist as two parts: a handle that contains type information,
+metadata, and a pointer to the actual function, and the actual function off
+somewhere in memory.  The headers all live together in a fairly fixed data
+structure like a stack or such, so they can be referred to by address.
+
+So the way it works is, say you have a function definition:
+
+f = function( x ) return x + 1 end
+
+f becomes a variable somewhere that points to the function definition handle.
+Then when you say
+f( 10 )
+it compiles to dereference f, do whatever it wants with the handle
+(typechecking, etc), find the pointer to the actual function, and call that.

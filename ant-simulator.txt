@@ -1,0 +1,28 @@
+I wrote a tiny ant-hill simulator many years ago when I learned pascal
+programming in high school. Create two ant-hills, drop several hundred ants in
+them, make 'em lay pheromone trails and give em four simple rules... or
+something like that. And you get beautiful emergent behaviour.
+
+If you want the binary and/or source, I'd be glad to send it. Drop me a line.
+mailto:sven.neumann@yellowpagesmalta.com -- SvenNeumann
+
+Just reread the paragraph above. Let me do a quick summary of the rules I used
+as far as I can recall them.
+
+    * Ant does a little random walk, in a way that prevents it from staying
+    * close to its starting point for too long.
+    * If ant is looking for food and finds food, take food home and leave
+    * trail.
+    * If ant is looking for food and finds trail, follow trail.
+    * If ant reaches end of trail, engage in a spiral search pattern for a
+    * short time.
+    * If and carries food and reaches nest, drop food and start searching
+    * again.
+
+Tadaa, you get very realistic looking ant-trails and a population proportional
+to the distance of food from the next. (It might be interesting to graph what
+kind of proportionality.)
+
+Oh, and ants have a limited lifespan, and as food is collected, new ants get
+born for each number of food units. That's about it... it sure looks cool. I
+used to watch my ants for hours during my 'O' level classes. ;)

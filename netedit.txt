@@ -1,0 +1,7 @@
+NETEDIT
+
+A program to make online writing collaboration easy.  So, instead of just sending revisions and suggestions back and forth, two or more people can brainstorm and make changes in real-time.
+
+Two windows:  The top one has the story, and can be seen and changed by all people in the current editing session (there could be multiple simultanous sessions, similar to seperate chatrooms, on the same story or on different ones), and the lower one is like a chatroom/command interperater.
+
+Combine it with some kind of CVS-ish versioning system!  In fact, CVS would work really nicely.  It has revisions and branches, so...

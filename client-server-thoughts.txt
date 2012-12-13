@@ -1,0 +1,11 @@
+This is in terms of PC architecture, y'understand.
+
+The issue is the conflict between "all my data and apps are on the server, I
+can get to them on any computer with a net connection" and "all my data and
+apps are on the client, I can get to them on that computer anytime."  The down
+side to each of these is "I don't have a net connection, I can't get to my
+stuff" and "I don't have my computer, I can't get to that stuff".
+
+This could be aided with the help of CVS-ish revision control tools.  That way
+you can have both the client and the server, and make changes to the content
+on either without running into synchronization issues.

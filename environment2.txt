@@ -1,0 +1,8 @@
+Environment 2:
+This is a SHELL, not an OPERATING SYSTEM.
+Yeesh.
+
+Menu for programs -expand/contract
+Config registry --which programs reside where, etc.
+Set-based FS
+File browser -basic ls-type...

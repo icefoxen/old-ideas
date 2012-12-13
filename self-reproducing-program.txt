@@ -1,0 +1,13 @@
+Write a self-reproducing program.
+Nothing malicious, maybe even something helpful, something trackable, but
+something that will spread around.  It will, however, also have a shutoff
+switch.
+
+If it were only on Linux/unix, I would have it feed it's source code to a
+compiler to reproduce, and put magic numbers in it to help track it.  Probing
+and incorperating system info would also be interesting.  Making it exchange
+traits with other programs of the same type in a semi-genetic manner would
+be cool too.
+
+How will it reproduce or, more properly, distribute itself?  Email itself?
+Use worm-ish exploits?  I don't like that...

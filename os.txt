@@ -1,0 +1,97 @@
+Okay, I need to majorly geek out about operating systems now, and
+since Shanya isn't online...  I was taking a shower you see, and took
+the time to actually flesh out some things.
+So, in Unix, everything is a file.  But that model sorta sucks, and
+Unix implements it poorly, and doesn't apply it to everything
+(networks and bitmapped screens, for instance), and so on.  Honestly,
+I don't think it's a robust enough metaphor, but we need SOME
+underlying device management system.
+So, say we have two layers.  There's physical devices, and logical
+devices.  They both work more or less the same way, except physical
+devices corrispond directly to parts of an actual box, and logical
+devices don't.  Devices are heirarchical, too; they can have
+sub-devices.  They have some kind of extendable API, I'm not too sure
+how it'll work yet, but devices should be able to tell you what they
+can and can't do in a fairly generic way.
+Anyway.  So, an example of a physical device would be a hard disk,
+which would have subdevices for its partitions.  Meanwhile, the
+filesystem itself would be a virtual device.  Memory would be a
+physical device, as would network cards, video cards, et cetera
+(ramdisks are a bit iffy, but they'd probably be a child of the memory
+device).  Virtual devices would be the network interfaces, with
+subdevices for each protocol, possibly further subdevices for each
+connection and so on, and the framebuffer with a subdevice for the
+rendering engine.  The virtual devices are generally what you mess
+with; the physical devices are there for when you need to mess with
+them.  There's probably subsystems for detecting addition and removal
+of physical devices, mapping them to virtual ones, and so on.  Then
+you take all of these things and put them in one place in the
+interface, which gives the illusion of messing with them directly
+instead of going through a bajillion more-or-less independant
+configuration utilities.
+I also thought about filesystems some.  I want a set-based filesystem
+instead of a tree-based one.  Each file would have a unique ID, a
+name, and a list of the sets it belonged to.  You could search and
+manipulate files by set, probably do access protection by set, and so
+on.  Name clash wouldn't be a problem due to UID's, organization would
+be simpler, I could just do "icefox|images|porn" or "icefox|images|!porn"
+instead of having entirely seperate trees for them, and so on.  Owners
+and groups could be implemented as sets too, I bet.  Files could even
+belong to no set.  Directory trees could be emulated as sets, with a
+few quirks.
+I think that the best way to do this is for the OS to have, somewhere
+in the filesystem metadata, a list of each existing file-sets.  Fuck,
+lemme just write it out.
+struct set {
+   string name;
+   count refcount;
+   (maybe other things)
+}
+struct setlist {
+   set array sets;
+   filedesc array files;
+   count refcount;
+}
+So, instead of each file having, say, an array of sets that it is in,
+it just has a pointer to a setlist (which is I guess an array of sets
+that it is in).  These setlists are shared between all files in that
+particular group of sets, and are created and destroyed on the fly as
+these setlists are referenced or the number of references to them goes
+to zero.  If you have a "foo" set and a "bar" set, and they share no
+common files, there will be no setlist "foo|bar" until you create a
+file in the group "foo|bar".  
+And, now I just realized that that makes finding out what sets a file
+is in really trivial, and most other operations still pretty hard.
+Well... maybe not.  Finding out all files in a particular group of
+sets is trivial; find the setlist, and follow the file descriptors to
+their files.  Finding out all the files not in a set might be
+trickier... you might have to go through every file on the system and
+check each one.  No; you could take the list of all files, take the
+list of all files in the set you don't want to include, and throw
+those out.  Hmmm.
+Hmmm.  I should probably study the logic of this more.  I'm sure there
+are ways to optimize complex things down into simpler composable
+operations.  Then we simply optimize for those operations.  And, or,
+not, xor.  And and Or are sorta the same thing in the above system;
+for And, you just find the appropriate setlist, and hey presto.  For
+Or, you find a bunch of appropriate setlists and combine their
+contents.  Xor and Not might be trickier...  I guess for Xor you take
+all the files in the "A" table and all the files in the "B" table, and
+leave out all the ones in the "A-And-B" table.  A-Not-B I guess you'd
+just get all the files in the A table.
+Actually...  There may be a problem.  If you want all the files in the
+set "A", you have to go through all the setlists with the set "A" in
+them, and get all the files therein.
+Hm.  Honestly...  There are many ways you can get the desired
+results.  I feel like there will always be a time-space trade off,
+and any representation will be more optimized for certain operations
+than others.  So, everything I just said will ultimately not matter,
+until I look at it from all angles and see how things will end up
+meshing together.  So, the last... six paragraphs are utterly
+useless.  Ah well.  Still...
+A Or B And (Not (A And B)) == xor?  I think so...
+Oo, one idea would be to cache the results of every search made,
+throwing out the cache items as they're invalidated by file movement
+or time out at some point.  It sounds like it'd be a useful slopsucker
+program hanging around using up spare CPU and memory/disc.
+

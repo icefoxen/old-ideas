@@ -1,0 +1,81 @@
+Please excuse the name; I can't think of one and needed one.  Since this
+strongly resembles Smalltalk, well...
+
+GUI, environment, platform, OS.  More or less.
+The language/model is entirely object-oriented.  Dynamic, Smalltalk-ish.
+--Language: Objective? Ruby? Smalltalk? ObjC? Self? Something else?
+
+Anyhoo.  Basic idea is this:
+No filesystem.  Say you have a Text object.  It sits in memory.  All memory is
+(incrementally, atomically) flushed to disk now and then.  An image is loaded
+at boot-time.
+You want to edit this Text object.  There are any number of applications
+--objects-- that can do things to it.  Display, edit, debug, filter, flush,
+and so on.  The Text object knows (or can find out) what programs/objects
+affect it (as a matter of UI).
+Say you subclass it, make a Source object.  This can know what functions itit
+contains, what dependancies it uses, how to compile itself.  It can be in any
+language.  It can be manipulated in any editor that knows the Source or Text
+interface.
+Single-inheritance?  With interfaces?  Or duck-typing?  ObjC-ish system?
+
+You can have Index objects that act sorta as browsers for text/code/whatever,
+all sorts of thigns.  Music, movies, etc can be stored and manipulated the
+same way.  Most config values are stored as class values or by special system
+objects.  Thing are self-reflective and largely self-documenting.  It can work
+as an OS or on top of one (kinda like Emacs).
+
+For contrast, let us consider say, a web server under this model.  It wouldn't
+have a configuration file, instead it'd have a config object.  This would be
+persistant, storable, copyable, everything a file is (How'd backups and
+versions work?  We'd need some kind of ObjectStore type thing anyway, so...).
+It'd serve up Page objects, or DynamicPage objects after running them through
+their associated Interpreter objects with the necessary Environment objects.
+
+It might be able for certain objects to remember their past states when
+changed by user input; automatic undo.
+
+What about the command line?  The obvious metaphor is "send x to y", but how
+do we type what y is?  Direct programming is too cumbersome; we need
+shortcuts.
+
+
+ISSUES:
+*A foreign-function interface rates somewhere between "nice" and "necessary".
+*EFFICIENCY.
+*SECURITY!!!!!  Anything can change anything; this is really nice and
+amazingly unsecure.  Maybe have "untrusted" containers, sorta like debuggers.
+Maybe be able to restrict what objects can touch what, maybe be able to
+restrict groups of objects into "jails" with only certain well-defined
+channels of communication.  If you use jails, then EVERYTHING should execute
+in a jail; make it general.   It's a BIG problem though.
+Hey, you could do what UNIX does for files: restrict acces per user and so on.
+ACL's for objects or groups of objects.  Sounds good.
+*BLOAT.  Unnecessary duplication of objects, bloat in memory-images that never
+gets flushed, needless subclassing...
+*Durability.  It always has to be able to cold-boot itself without much in the
+way of an image...  there should be tools to manipulate pieces of images
+(somehow).  With a UNIX filesystem, you can just back up your home dir and
+application sources and you're fine.  With this...?  Application sources are
+pretty distinct, but grabbing all "user data" and squirrelling it away
+somewhere safe could be hard.  Maybe a succession of spaces/images; base
+system, extended system, user data, (plus other like, say, FTP data, web
+server system, and so on...  make an easy way to encapsulate data/programs,
+and it'll become an easy way to distribute it too!  This might also relate to
+jails for security, see above, so then userspace can't touch systemspace can't
+touch webserver-space...  ^_^)
+*Command line...?
+
+This system should be an API, NOT A LANGUAGE!  Layer on top of basic UNIX (or
+any other OS, all it really needs is a layer of hardware abstraction --memory,
+disc, display, I/O).
+Lookup Smalltalk, Cocoa.
+As little double-clicking and mouse-chording as feasable.  Really,
+double-clicking is something of a kludge.
+
+...the thing about Smalltalk is this: The system is cool.  The UI and
+documentation both suck in a very big way.  No help, no labels, no "find"
+functions...
+
+Find the conversation I had with Atma on 31/3/2005 for lots of pondering on
+this general idea.

@@ -1,0 +1,120 @@
+*What do I want this compiler to DO?
+I want it to dynamically link
+I want it to manipulate functions as values
+I want it to GC
+I want it to compile
+I want it to execute fairly fast
+I want it to have easy access to standardized system info
+I want it to have a nice module system --Java, Python, Haskell
+
+*What do I want this language to DO?
+I want it to have delayed evaluation --blocks, special forms, etc
+I want it to be dynamically typed --values have type, not vars
+I want it to do low-level stuff
+I want it to be OO, to a degree --how much?  Utterly?
+I want it to have a simple syntax (unlike Ocaml, Perl, Ruby)
+I want it to have keyword, preset, and variable-number args
+I want it to have a good exception system
+I want it to be flexible in concept (unlike Lisp (well, Scheme), Haskell, Smalltalk)
+I want it to have docstrings
+I want it to be able to have anonymous funcs --see delayed evaluation!
+I want it to have in-built support for complex data structs (lists)
+I want it to be fairly simple in concept (unlike C++, Haskell, Lisp)
+I want it to have symbolic manipulation
+I want it to have good exception handling
+
+
+*What problems to I want to SOLVE this language?  Problem domain.
+Info-crunching, text-processing, simulation
+Graphics
+C FFI
+Systems
+Toolsmithing, practical applications, games
+General-purpose
+
+I want a reasonably quick, compiled language suitable for large-scale application development.
+
+*Other problems worthy of consideration:
+Multithreading
+Glue, both low and high level
+Networks
+
+Hehe.  These goals, at least, haven't changed.
+
+
+
+Hmm.  Lispy syntax...  Nice 'n' easy to parse.  Typeless.  Static binding.  No EVAL.  Functional mostly.  Iterators?  Lambdas.
+
+Built-in data structures: structs, lists, objects, arrays.  Dictionaries?  Maybe.
+
+Function call is (foo arg1 arg2 ...).  Optional args, keywords, and var-length args all exist.
+
+ObjC.  Things are loose and fluid, but CAN be specified if necessary.
+
+
+
+(df fact (x)
+   (* x (fact (dec x))))
+
+(df fib (x)
+   (if (< x 2)
+      1
+      (+ (fib (- x 1))
+         (fib (- x 2)))))
+
+
+(df build-list (x y)
+   [x, y])
+
+(df build-list (x y)
+   (cons x (cons y [])))
+   
+
+(use IO)
+(df main ()
+   (IO:println "Hello world!"))
+
+
+More song-ish?
+df main:
+   (IO:println "Hello world!")
+
+Nah.  Not fluid enough.
+
+Iterators, though?  Maybe.  Has potential perhaps.
+(iter while (b)
+   (if b
+      (repeat)))
+
+(iter fromto (f t)
+   (if (< f t)
+      (yield (inc f))))
+
+Meh.  Nah, not now.
+
+(df reverse (lst)
+   (if (> (len lst) 1)
+      (cons (reverse (cdr lst)) (car lst))
+      [(car lst)]))
+
+
+
+Grar.  I should grab Arc...
+
+Hm.  Start with something Dancer-ish, and dike out the blocks and make it functional.
+What about control structs?  Also functional, at least in appearance...  Special forms, heh.
+
+df reverse (lst)
+   (if (> (len lst) 1)
+      [ (reverse (cdr lst)), (car lst) ]
+      [ (car lst) ]).
+
+Heh, then I just have what I had before, pretty much.
+Anyhoo, I want it to be rather more dynamic than Ocaml, but not quite as much so as Lisp.  Objective C is a good model.
+
+Hmm.  I can't make it UTTERLY OO; Dancer tried to do that and gave me a certain amount of anguish over it, I recall.  Particularly data structures.  Multiple dispatch is a really nifty idea but gets rather painful rather quickly once you try to make complicated heirarchies with it.   For instance, is foo( bar, bop ) more specific than foo( bop, bar )?  See?  It's hard enough WITHOUT inheritance.
+
+Grar.  This delimited syntax is really icky.
+
+Well...  Completely OO, with functions/class methods, single inheritance...  These are all fundamental.  I want dynamic binding a la Objective C.
+Well.  I COULD just make Song have dynamic binding, heh.  That might actually work quite nicely, what with unions tentatively solved...

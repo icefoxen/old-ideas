@@ -1,0 +1,19 @@
+Amazing the things that can come to ye in the shower...
+
+Right, the dilemma is this.  A tree-based filesystem is really convenient for the comp and pretty good for the user too, but there still tends to be a bunch of frustration when files can overlap catagories.  So, use sets instead, and obtain a file listing not depending on which directory you're in, but which set or union/intersection/etc of sets you're in.
+
+However, that's really not-so-good for the computer.  It wants to know a specific pathname that leads to one and ONLY one file.  And that makes things like, say, library directories not-so-hot.
+
+I tried to think of a way or ways to overlap the two, but that really didn't work out so well.  But!  If the set-based fs is good for the user and the tree-based fs is good for the comp, use both!  Not overlapping each other, but NEXT to each other!!  So one is for userspace and the other is systemspace!  W00t!
+
+So.  Now I have to get a good set datastructure, then write up a good library that'll let me manipulate files and such in Systemspace, and in Userspace.  And I'll call sets "domains" 'cause it's less ambiguous.  "Set the set", etc...
+
+Maybe I can have "boxes" of some sort to isolate files from the rest of the set, and sort of make a limited tree.  It's an idea that's open to abuse, but...
+
+
+Other epiphany!  This does NOT have to apply to files!
+It can apply to any kind of information.  For instance, emails.  GMail lets
+you apply "label" to emails and search by those, this is basically the same
+thing.  So any time you have a big long list of items that you need
+categorized, the instinct may be to arrange them in a tree, but sets are a
+better idea.

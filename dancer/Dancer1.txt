@@ -1,0 +1,21 @@
+DANCER SPECIFICATION
+Last changed: 9/9/2003
+
+CHAPTER 1
+
+1) Lexical Structure
+ 1.1) Identifiers
+ 1.2) Whitespace
+ 1.3) Comments
+ 1.4) Valid Symbols
+ 1.5) Special Symbols
+ 1.6) Numbers
+ 1.7) Variables (noCaps)
+ 1.8) Classes/Globals (YesCaps *andStars?*)
+ 1.9) Constants (ALLCAPS)
+ 1.10) Predicates (?)
+ 1.11) Destructive (!)
+ 1.12) Characters
+ 1.13) Strings
+ 1.14) Lists
+ 1.15) Literal symbols

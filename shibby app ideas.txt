@@ -1,0 +1,38 @@
+
+So this is a system interface.  It does networking, it does proxying, it does program management and automation.  It does user-interface via network either with a special client, or regular telnet.
+
+So, parts:
+Filesystem library
+Stackshell & script interperater
+File transfer stuff
+Automation
+Program interface
+Compiler access
+Chat and internet access
+
+
+Things that are cool:
+Chatservers
+MU*'s
+Fora
+Databases
+Mail servers
+Portscanners
+XML
+GUI's
+Customizable/Theme-able GUI's
+Embedded interperaters --a la Emacs and Script-Fu
+Remote-access anything
+Portability (as in, you can access it from anywhere.  ^_^)
+Lisp- and Forth-like languages
+Automation/cron
+AI/neural nets/genetic algorithms
+Postscript
+TeX
+Set-based FS (duh)
+Proxies
+Dynamic linking/modules
+Stackshell
+
+
+A hacked mail server/client that responds to any message, IE SPAM, with a virus and/or excessively large attachment

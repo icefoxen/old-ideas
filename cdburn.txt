@@ -1,0 +1,4 @@
+Write an xcdroast-ish CD burning program frontend in ocaml and ocamlgtk.
+Frontend for cdrecord and mkisofs, really.
+
+...this has kinda become obselete by the goodness that is k3b.  All hail k3b.

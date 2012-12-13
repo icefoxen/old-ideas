@@ -1,0 +1,44 @@
+http://www.c2.com/cgi/wiki?OperatingSystemsDesignPrinciples
+http://www.c2.com/cgi/wiki?NewOsFeatures
+http://www.c2.com/cgi/wiki?WhyDoOperatingSystemsSuck
+http://www.c2.com/cgi/wiki?BlueAbyssFramework
+
+   1.  OrthogonalSecurity
+   2. Elegance
+   3. Simplicity
+   4. Integrity = Elegance + Uniformity
+   5. Resilience
+   6. Robustness
+   7. Modularity
+   8. Composability
+   9. NameSpace principles (eg. Connectedness)
+  10. Uniformity, or Consistency
+  11. Extensibility
+  12. Distribution
+  13. Reflection (includes Monitors)
+  14. ObjectOrientation
+  15. ReferentialTransparency (FunctionalProgramming)
+  16. Reliability
+  17. Self-documentation
+  18. Predictability / Understandability
+  19. Reversibility
+  20. Liveness
+  21. Directness
+  22. Correct(ness-proved)
+
+
+
+Much of this is basically summed up as "if everything has the same
+interface/protocol, everything can talk to anything, and this interface
+provides exactly The Right Things, it will be good."
+
+The fundamental part of an OS is to multiplex, and arguably abstract,
+hardware.  I'm doubtful of anything that doesn't abstract it, because that
+means it's not portable; it unloads the burden of portability onto the
+libraries, as well as that of abstraction.
+
+Capability-based security...
+Logging file system/transparent persistance...
+
+And there's something about multiplexing at every layer of abstraction, and
+seperating them, but I'm not sure what that means...

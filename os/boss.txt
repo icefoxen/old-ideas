@@ -1,0 +1,84 @@
+*-BOSS (lisp? scheme? dancer? d?)
+Console prompt (xterm, whatever) is accessed by telnetting localhost?  Elegant, but potentially insecure.  'Twould require denying access to anyone not from localhost by default, which is NOT elegant.  Or... default SSH?  Even from localhost?  Also not elegant...
+
+DAMMIT... it HAS to have good multiuser/server support, but I really just want it to be a desktop station...  But for good graphics, 'twould be best for it to be built in!
+
+Postscript for printing?  For graphics?  Use TeX DVI files instead??  XML, a la Mozilla's XSL/XLT/whatevertheheck?
+That latter may have potential, if I can make it render fast enough.  Maybe there's some way to use it as a description language, then compile some kind of bytecode interface module from it?  Yeah, that should be possible... bytecode vs scripting, as far as I know, is sorta to computers as assembly vs machine language is to humans... rather ironic, that.  ^_^
+
+Docs stored as XML, most likely.  Use whatever DTD ends up common for internet.
+Heh... That would be cool, 'cause Lispy languages are good at generating that kinda syntax.  ^_^
+
+Using scsh for scripting may be a good idea, no matter what language you end up basing it off of.
+
+Perhaps... Write the kernel in D or something, build in a direct-kernel interface for Scheme or Lisp or something, then  script the sucker up.  Perhaps use Scheme as a basis, and extend it, kinda like Emacs Lisp.  Perhaps use Lisp for the same purpose... learn it better, then!
+
+D has some interesting potential though... if I can write this (hah!) without touching a single line of C/C++, I will be a happy boy...  I suppose I can check out Eiffel and such also, but I doubt it has the necessary low-level interface any more than Java does.
+
+I DO sort of like the idea of a runtime image instead of starting each service seperately...  Well.  Pros/cons.  Pros: faster loading, simpler loading, simpler config.  Cons: Harder to alter perhaps, slower shutdown.  The idea is that whenever you made some lasting change, you would re-compile the image.
+Or rather... use it to store local user environment??  That would make saving files obselete, 'cause it would capture the state exactly when you shut it down!  It may be rather hard to pull off though...
+
+Environment variables would normally be held by the Lisp/Scheme environment... but having a GUI makes that sorta complicated.  Registry then?
+Well... does the GUI really screw it up that much?  I don't really think so...
+
+What kind of remote filesystem should I have?  Plain FTP??  Unix NFS?  Windows SAMBA?
+
+Use CRLF newlines, I guess.  Internet standard and all that.  :-(
+Include utilities to identify and change them though.
+
+Built-in logging?  Probably via some daemon.
+
+
+Things I need unified interfaces for:
+{TCP|UDP|ICMP}/IP
+Modems vs Fax vs PPP vs Ethernet
+
+
+
+
+Thought experiment with SetFS
+four sets: home, sys, data, exec (plus root).
+two subsets: data>docs, data>imgs
+Nine files:  Doc1, doc2, doc3, bin1, bin2, bin3, img1, img2, img3.
+
+Membership:
+home: doc1, doc2, doc3, bin1, img2
+sys: bin2, bin3, img1
+data: doc1, doc2, doc3, img1, img2, img3
+data>docs: doc1, doc2, doc3
+data>imgs: img1, img2, img3
+exec: bin1, bin2, bin3
+
+Syntax: 
+Syntax is Lisp-y.  (U) is a union of sets, set1 OR set2.  (I) is an intersection of sets, set1 AND set2.  (E) is an exclusion of sets, set1 NOT set2.  It may take a bit more writing of parenthesis and such, but it is MUCH clearer.  The syntax for subsets may have to change at some point...
+
+So:
+(U home data) => doc1, doc2, doc3, img1, img2, img3
+(I home data) => doc1, doc2, doc3, img2
+(E home data) => bin1
+
+Subsets are exactly what you think they are
+(U home data>docs) => bin1, bin2, bin3, doc1, doc2, doc3
+(I exec data>docs) => none
+(E exec data>docs) => bin1, bin2, bin3
+
+(U sys exec) => bin2, bin3, img1, bin1
+(I sys exec) => bin2, bin3
+(E sys exec) => img1
+
+Sets can also be nested...
+(I home (U sys exec)) => bin1
+(U data>docs (I sys exec)) => bin2, bin2, doc1, doc2, doc3
+...and so on.
+
+You can compare more than two sets at a time, for instance (U set1 set2 set3).  Really, this just expands recursively to (U set1 (U set2 set3)).  (???)
+
+
+Prob is... you can't really refer unambiguously to a certain file, except by name.  Say you have a file called doc1 in home, and another seperate file called doc1 in data and data>docs.  Say you call (U home docs).  What the hell do you display?  How do you tell the difference?
+
+THAT'S the point.  There's only one domain (in the mathematical sense) that all the sets are a member of!
+
+What about having subsets that cannot overlap?  Neh, that doesn't really solve anything, since they CAN overlap with other root sets.
+It's great for organizing... but not for differentiating.  There's no gaurentee that a certain file will lie in a certain place.  This... could also make file permissions somewhat wonky.  Actually... that could be solved with sets also.  Wiggy!
+
+Might also want to make a set2tree util that allows you to browse it in a tree-like manner.  That could come in VERY handy with, say, web servers.

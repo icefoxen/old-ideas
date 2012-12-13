@@ -1,0 +1,34 @@
+Here's an idea.  How 'bout an assembly syntax that helps one out in various
+ways?
+First, data...  Could make it forth-y.  Declare a number, it gets pushed on
+the stack.  So:
+10 20 add
+would work.
+You could also manipulate registers directly.  So:
+eax:10 ebx:20 add@eax,ebx
+would work too.  You might be able to nest things, so
+ecx@(add@eax,ebx)
+But that puts in some sort of implicit move or such...
+
+
+Hmm.  The problem is that machine architecture, especially Intel, is fucked up
+weird.
+You could sorta make a model of a machine that's low-level enough to control
+everything but high-level enough to be portable/nicer...
+
+Bah.  Portability is NOT an issue!  This is still assembly!
+
+Facilities of assembly:
+*data
+registers capable of holding integer/pointer values
+registers capable of holding floating point values
+memory capable of holding any value
+stack taking up part of the memory capable of holding any value
+
+*code
+jumps
+conditional jumps for branching
+call/return for functions
+explicit moves between registers, memory, etc.
+explicit intermediate values for operations
+Operations are almost all binary or unary

@@ -1,0 +1,43 @@
+Okay, there are basically three types of languages: Ones that strive to be
+simple, ones that strive to be complex, and ones that strive to be neither.
+
+It is rather easier to make a simple language, but to do so one has to have
+the right /basis/ for the simplicity.  You need a small but all-embracing
+idea.  The languages listed do pretty well at it.
+
+It is much harder to make a complex language, because all the complexity has
+to sorta fit into a whole, unified system.  A complex language is one where
+you might not even be familiar with all the features and options provided, but
+can often do whatever you need with the subset ye DO know.  A complex language
+needs to be consistantly designed and make a sorta higher sense, in terms of
+human understanding and comprehension.  Of the ones listed, only OCaml, Python
+and D really do an okay job of it.
+
+The in-between languages are what you get if you take a simple language and
+add a bunch of conveniences, or take a complex language and chop off a bunch
+of cruft.  They're handy, but it's often a matter of taste what is left in and
+what is left out.
+
+SIMPLE:
+Scheme
+Lua
+Smalltalk
+Forth
+
+NEITHER:
+C
+Objective C
+Ruby
+Modula-2/3
+Haskell
+Java
+
+COMPLEX:
+C++
+OCaml
+Perl
+Python
+Eiffel
+Ada
+D
+Common Lisp

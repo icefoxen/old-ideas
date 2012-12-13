@@ -1,0 +1,24 @@
+Thoughts on handy Unix-ish utilities...
+
+* There should be a string formatter/tabulator program that is very flexible
+and powerful a la Lisp's FORMAT, and has a library that provides the function
+that does this.  That way you can use the same syntax for printing stuff from
+shell-scripts or from programs, instead of having to re-implement printf* a
+bunch.
+
+* Provide the same thing for regexps and sed-ish line-editing.
+
+* And log-files, really...
+
+* And DATES.  As abstract values and concrete strings.
+
+* And time-systems, while you're at it.  Think an API into cron and at.
+
+* See if you can find some simple abstraction for handling mail systems...
+things like redirects, away messages, attachments, mailboxes, condensing from
+various servers and so on can get really twisted, really fast.  Some concise
+layout/option tool would be nice.  See if you can make a unified interface for
+mail, and just have programs serve that interface.
+
+* Do the same thing for packages and programs...  keep track of what program
+depends on what, and where all it's files are kept.

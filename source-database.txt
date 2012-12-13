@@ -1,0 +1,18 @@
+A source database and make tool, all cross-referenced, all storing each
+function or method or object on it's own.  Automatically computes
+dependancies, support for seperate projects and libraries and so on, indices
+compiled binaries (?), very smalltalk-ish or LispM-ish.  Either implement it
+on Emacs, or use Emacs as a front-end!
+Leave support for other plug-in editors though!
+
+
+
+
+Database source-tool.  It should have the revision control built in, or
+options for revision control.
+
+I still dislike the non-plain-textiness of it.  Even though it leads to
+syntax-independance.  Perhaps a good idea is this: instead of storing
+everything in the database, store the actual source as a plain text file, then
+store all the metadata in a database.  That might work well, in terms of
+failure-safety.

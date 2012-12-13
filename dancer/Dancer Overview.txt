@@ -1,0 +1,301 @@
+**INTRO**
+
+
+**CONVENTIONS**
+
+**COMMENTS**
+
+
+**TYPES**  
+(%% means the type is fundamental but non-atomic, ie, is implemented by other types)
+(Should characters just be a one-element string???  That makes things nices for high-level programs and nastier for low-level programs.)
+Boolean		t/nil
+Integer		fixnum/bignum
+Float		Double-precision
+Rational	1/2 for example				%%
+Irrational	3i 1j for example			%%
+Sequence	List, vector or string
+List		(elt elt elt) --Single linked?  	
+Vector		#( elt elt elt ) --resizable!
+Character	#\a  --Latin-1?  			???
+Symbol		Abstract
+String		"Hello" --Vector or list?		%%
+Structure	#{type :name1 val1, :name2 val2}
+Object		#<type :name1 var1, :name2 var2, method1, method2>
+Packages	Abstract(?), subpackages
+Function	<func args>
+Exception	#<exception>				%%
+Stream		#<I/O stream>				%%
+
+
+**BUILTIN FUNCS**
+DIRECTIVES
+fun
+global
+macro
+constant
+class
+method
+struct
+load
+import
+export
+doc
+inspect
+trace
+time
+macroExpand
+funcName
+
+BINDING
+set!
+let
+let*
+letrec
+mBind
+letfun  (?)
+letfun*
+
+ITERATION
+do
+for
+doList
+doTimes
+doOver (iterates arbitrary structure?)
+break
+while
+
+FUNCTIONS
+func
+map
+foldr
+foldl
+begin
+return
+call
+return
+ignore
+
+LOGIC
+cond
+match
+if
+unless
+and
+or
+not
+xor
+shiftl
+shiftr
+bOr
+bAnd
+bNot
+bXor
+eq?      (arbitrary comparison)
+equal?   (physical comparison)
+comp     (arbitrary comparison, return :equal, :greater, :less)
+compare
+greater?
+less?
+greaterEqual?
+lessEqual?
+
+MATHEMATICS
++
+-
+/
+*
+mod
+rem
+sin
+cos
+tan
+asin
+acos
+atan
+>
+<
+=
+/=
+>=
+<=
+odd?
+even?
+prime?
+square
+pow
+sqrt
+root
+floor
+ceil
+round
+-1
++1
+
+TYPING
+type
+type?
+convert
+check
+
+
+EXCEPTIONS
+try
+throw
+catch
+protect
+
+
+SYSTEM INFO (inspired by 2000 lines of incredibly nasty C macros)
+dcrImplementation
+dcrVersion
+sysArch
+os
+osVersion
+wordSize
+newlineChar
+endianness
+
+MISC
+asm
+sleep
+eval
+
+OBJECTS/METHODS
+init
+toString
+superClass
+protocols
+name
+
+SEQUENCES (lists, vectors, strings)
+len
+rev
+sort
+concat
+concat! (destructive)
+sort!
+rev!
+nth
+first second ... tenth
+contains?
+find
+findSeq
+subSeq
+slice  (slice takes a start and end index and either can be omitted to indicate the first and last element.  subSeq takes a start index and a length)
+
+LISTS
+car
+cdr
+caar (and soforth, up to cddddr)
+cons
+list
+
+ARRAYS
+mkArray
+resize
+resize!
+fill
+fill!
+addFirst
+addLast
+
+STRUCTURES
+mkStruct
+sref
+
+STRINGS
+strip
+strip!
+split
+strUp!
+strDown!
+strCap!
+print
+format
+
+CHARACTERS
+charUp
+charDown
+(char-code not necessary; use (convert-to :integer chr) instead)
+
+
+**STREAM LIBRARY**  (Has automatic file mutexes!!!)
+makeStream
+inStream?
+outStream?
+close
+openFile
+closeFile
+streamInfo
+fileInfo
+read
+write
+readLine
+readLines
+xreadLine
+xreadLines
+newline
+readChar
+writeChar
+withOpenFile
+seek
+position
+unread
+peek
+flush
+clearInput
+clearOutput
+streamEnd?
+readFile
+writeFile
+appendFile
+(symbols: *standard-input*, *standard-output*, *standard-error*.  Two types of streams; character and binary)
+
+
+**POINTERS/LOWLEVEL LIBRARY**
+getPtr      (Return the address of a something)
+refPtr      (Reference an address and return the result, (set x (refPtr a)) is the same as C x = *a;)
+size        (Return the size of something)
+inPort      (Low-level IO ports, baby)
+outPort     (ditto)
+setPtr      (direct low-level raw poking; perhaps unnecessary with fixnums... (setRef a 10) is the same as C *a = 10;)
+callC       (call C function)
+importC     (Import a C module?)
+** C data types?
+
+
+**LIBRARIES**
+Socket
+Stream
+String
+Regexp
+System
+Math
+Thread
+Os
+Stack
+Btree
+Binarytree
+Graph
+Set
+Hashtable
+Time
+Random
+Dancerdoc
+Path (url?)
+
+(higher level libraries)
+smpt
+http
+ftp
+html
+xml
+base64
+thread?
+zlib?
+tk?
+opengl?
+md5?
+url (if not in path)
+unix?
